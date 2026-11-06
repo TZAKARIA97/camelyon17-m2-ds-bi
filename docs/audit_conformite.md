@@ -2,7 +2,7 @@
 
 ## Verdict
 
-**Le dépôt initial ne répondait pas à l'ensemble du besoin : il contenait neuf fichiers de documentation et aucune chaîne de code publiée. La version corrigée fournit un socle technique exécutable et documenté, mais pas encore le rendu scientifique final.**
+**Le dépôt fournit maintenant un pipeline exécutable et un pilote réel interprété : 688 patchs, deux entraînements et une inspection WSI/XML. Il ne constitue pas encore le rendu scientifique final.**
 
 Le sujet exige des expériences sur des données réelles, leur interprétation, un rapport de 15 pages maximum et une soutenance de 10 minutes. Des tests logiciels et une démonstration synthétique ne remplacent aucun de ces résultats.
 
@@ -11,13 +11,13 @@ Le sujet exige des expériences sur des données réelles, leur interprétation,
 | Exigence | Avant correction | Maintenant | Ce qui reste nécessaire |
 | --- | --- | --- | --- |
 | Compréhension du problème | Cadrage écrit | Cadrage et limites patch/lame/patiente précisés | Validation collective du périmètre et de l'attente pN |
-| Exploration et préparation | Tâches à réaliser | Scripts, audit, sous-échantillonnage et notebook | Inventaire réel, contrôle des annotations et interprétation des images |
-| CNN et méthode justifiée | Aucun code sur GitHub | ResNet18 gelé, configuration de fine-tuning, provenance | Entraînements réels et comparaison sur validation |
-| Évaluation et robustesse | Protocole uniquement | Scores, métriques, figures et regroupements par centre/lame | Test réel après sélection, analyse des écarts et incertitudes |
-| Interprétabilité | Méthode prévue | Grad-CAM exportable avec sélection explicite des exemples | Confrontation aux annotations et commentaire humain |
+| Exploration et préparation | Tâches à réaliser | Pilote réel audité, cohortes documentées, figures et inspection d'une lame | Vérification élargie de la source et des conventions spatiales ; relecture du groupe |
+| CNN et méthode justifiée | Aucun code sur GitHub | Deux entraînements réels : AP validation 0,796 et 0,895 | Cohorte élargie, stabilité et décisions finales justifiées |
+| Évaluation et robustesse | Protocole uniquement | Validation réelle, figures et métriques par lame ; test sans prédictions | Test après gel du protocole et analyse des incertitudes |
+| Interprétabilité | Méthode prévue | Trois Grad-CAM réels inspectés et commentés ; carte nulle signalée | Confrontation à des masques correspondants et relecture humaine |
 | Niveau ganglion/patiente | Ambiguïté identifiée | Règles pN sur catégories connues, limites explicites | Données complètes et évaluation adaptée, ou périmètre alternatif confirmé |
 | Reproductibilité | Documentation seule | Dépendances, configurations, empreintes, tests et démonstration | Reproduction par un autre membre sur ses données et sa machine |
-| Rapport, 15 pages maximum | Plan | Plan et document de travail rédigé sur les parties établies | Résultats réels, figures, discussion et mise en forme finale |
+| Rapport, 15 pages maximum | Plan | Document de travail et bilan détaillé du pilote avec chiffres, figures et limites | Expériences finales, relecture et mise en forme dans les 15 pages |
 | Oral, 10 minutes | Trame | Trame, messages et questions de préparation | Supports finaux et répétition collective |
 | Suivi et contribution | 11 issues ouvertes | Suivi relié au code et aux livrables | Comptes des membres, contributions et relectures effectives |
 
@@ -34,13 +34,13 @@ Le sujet exige des expériences sur des données réelles, leur interprétation,
 
 ## Ce qui ne doit pas être déclaré terminé
 
-L'entraînement CAMELYON17, l'analyse clinique des images, la robustesse sur une cohorte réelle et la validation pN ne sont pas faits. Les scores du bruit artificiel ne doivent pas servir à remplir un tableau de résultats manquant. La présence d'un script de règles pN ne démontre pas la détection et la mesure des lésions.
+Les deux entraînements du pilote sont réels, mais la robustesse sur la cohorte finale, l'analyse clinique et la validation pN ne sont pas établies. Le modèle retenu manque 15 des 38 positifs de validation. Les scores du bruit artificiel ne remplacent aucun résultat manquant. La présence d'un script de règles pN ne démontre pas la détection et la mesure des lésions.
 
 Les groupes patient du challenge sont artificiels : le contrôle des identifiants fournis ne démontre pas l'indépendance biologique de toutes les lames. Une seule source hospitalière dans le test ne permet pas d'en déduire une robustesse à tous les hôpitaux.
 
 ## Prochain jalon vérifiable
 
-Rendre accessible un dossier WILDS vérifié contenant `metadata.csv` et les images correspondantes, ou un accès au stockage déjà utilisé par le groupe. Créer un pilote, l'auditer, afficher ses images et consigner ses effectifs. Aucun entraînement lourd n'est nécessaire avant cette validation.
+Le jalon d'accès aux données et de pilote est réalisé : [accès reproductible](acces_donnees.md), [bilan du pilote](../reports/pilot_real/README.md), [inspection WSI](../reports/wsi_example/README.md). La prochaine étape est une reproduction par le groupe, puis une cohorte finale justifiée et un protocole figé avant le test. Le miroir est communautaire et son équivalence au bundle officiel reste non démontrée.
 
 La date limite, les ressources de calcul et la clarification pN doivent être confirmées en parallèle. Les scripts ne peuvent pas deviner ces informations.
 

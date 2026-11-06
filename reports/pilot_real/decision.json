@@ -1,0 +1,40 @@
+{
+  "rule": "highest_validation_AP_tie_frozen_baseline",
+  "chosen_for_pilot": "finetune",
+  "validation_metrics": {
+    "baseline": {
+      "n": 128,
+      "threshold": 0.5,
+      "tn": 86,
+      "fp": 4,
+      "fn": 17,
+      "tp": 21,
+      "sensitivity": 0.5526315789473685,
+      "specificity": 0.9555555555555556,
+      "precision": 0.84,
+      "f1": 0.6666666666666666,
+      "accuracy": 0.8359375,
+      "prevalence": 0.296875,
+      "roc_auc": 0.8233918128654969,
+      "average_precision": 0.7960461697995735
+    },
+    "finetune": {
+      "n": 128,
+      "threshold": 0.5,
+      "tn": 90,
+      "fp": 0,
+      "fn": 15,
+      "tp": 23,
+      "sensitivity": 0.6052631578947368,
+      "specificity": 1.0,
+      "precision": 1.0,
+      "f1": 0.7540983606557377,
+      "accuracy": 0.8828125,
+      "prevalence": 0.296875,
+      "roc_auc": 0.90906432748538,
+      "average_precision": 0.8951499880549048
+    }
+  },
+  "test_predictions_computed": false,
+  "manifest_sha256": "48bcb93b73f7ec4358c8ada9f53533d6f6cbe23506b54dc907277c655a5cc33a"
+}

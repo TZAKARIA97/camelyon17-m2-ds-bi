@@ -1,0 +1,28 @@
+{
+  "seed": 42,
+  "model": "resnet18",
+  "image_size": 96,
+  "batch_size": 32,
+  "epochs": 3,
+  "learning_rate": 0.001,
+  "fine_tune": false,
+  "class_weighted_loss": false,
+  "selection_split": "val",
+  "threshold": 0.5,
+  "num_workers": 0,
+  "device": "cpu",
+  "manifest_sha256": "48bcb93b73f7ec4358c8ada9f53533d6f6cbe23506b54dc907277c655a5cc33a",
+  "initial_weights": "IMAGENET1K_V1",
+  "normalization_weights": "IMAGENET1K_V1",
+  "dataset_kind": "provided_not_clinically_validated",
+  "code_version": {
+    "commit": "f2a59d4d36f7f557337c26479b96fe712bc8fd58",
+    "working_tree_dirty": false
+  },
+  "selection_metric": "average_precision",
+  "split_sizes": {
+    "test": 144,
+    "train": 416,
+    "val": 128
+  }
+}

@@ -1,0 +1,18 @@
+{
+  "manifest_sha256": "48bcb93b73f7ec4358c8ada9f53533d6f6cbe23506b54dc907277c655a5cc33a",
+  "checkpoint_sha256": "e0e1ab47790b172770e87e27b7fe3e9155cd6901682189d8e783fc694fd51805",
+  "predictions_sha256": "50826bfbe8b2e3f18d85784eaf7934395b7e40dd775a0cfa7fd0512b32ef104d",
+  "dataset_kind": "provided_not_clinically_validated",
+  "split": "val",
+  "threshold": 0.5,
+  "code_version": {
+    "commit": "f2a59d4d36f7f557337c26479b96fe712bc8fd58",
+    "working_tree_dirty": false
+  },
+  "runtime_predictions_sha256": "711cfd7aff6b9434cad3ae9ff2dfc6bd476f5d62b9d04bc6766ba3fce2ce4d5f",
+  "path_representation": "relative_to_acquisition_root; scores unchanged",
+  "portable_manifest_sha256": "f2c2595145b8de7f1750465a2f6e046992946abd1786ecb30a6073ef26cc910c",
+  "runtime_environment_sha256": "8b41e89af13f5def9edb6fdf996300ee8f58723eada183c4e645ffdf3785f32f",
+  "published_environment_sha256": "ce500db6cef9c1547b72a802c297aa4c39aaf6dfd8ceb204a8e035169e2656b4",
+  "environment_note": "Informational pip freeze snapshot; one local runtime-only file dependency omitted. Install the repository requirements instead."
+}

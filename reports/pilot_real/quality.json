@@ -1,0 +1,11 @@
+{
+  "image_count": 688,
+  "modes": {
+    "RGBA": 688
+  },
+  "opaque_alpha_verified": true,
+  "exact_rgb_duplicate_groups": 0,
+  "exact_file_duplicate_groups": 0,
+  "cross_split_rgb_duplicate_groups": 0,
+  "scope": "exact_equality_not_near_duplicates_or_biological_independence"
+}

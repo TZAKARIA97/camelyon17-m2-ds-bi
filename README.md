@@ -2,7 +2,7 @@
 
 Détection de tissu tumoral sur des patchs histopathologiques, analyse des erreurs et généralisation entre centres hospitaliers. Travail pédagogique en équipe de cinq.
 
-**État : pipeline de travail publié et testé sur données synthétiques. Le rendu scientifique final reste à compléter avec des données et des résultats réels.** Voir l'[audit de conformité](docs/audit_conformite.md).
+**État : pilote réel de 688 patchs acquis et audité, deux modèles entraînés et comparés sur validation, une lame originale inspectée avec son XML. Le test final et le rendu scientifique restent à compléter.** Lire le [bilan chiffré et interprété](reports/pilot_real/README.md) et l'[audit de conformité](docs/audit_conformite.md).
 
 ## Démarrer en cinq minutes, hors installation
 
@@ -39,6 +39,10 @@ Suivre le [guide exécutable pas à pas](docs/02_demarrage.md). Il couvre :
 4. Entraînement d'une référence puis comparaison d'une amélioration sur validation.
 5. Évaluation du modèle choisi, export des figures et des exemples Grad-CAM.
 6. Interprétation, limites et rédaction.
+
+L'[accès aux données est préparé](docs/acces_donnees.md) : `python -m src.data.acquire_wilds --out data/wilds/pilot_download` récupère uniquement le pilote depuis un miroir communautaire figé. `python -m src.data.acquire_wsi_example` récupère une paire TIFF/XML originale d'environ 519 Mo, contrôlée par MD5. Le détail des sources et leurs limites est documenté.
+
+Sur les 128 patchs de validation, l'AP passe de 0,796 à 0,895 avec le dégel du dernier bloc. Le modèle retenu manque néanmoins 15 des 38 positifs au seuil 0,5. Ces résultats de pilote ne constituent pas une performance clinique ni un résultat sur le test.
 
 Pour une piste WSI, le code comprend aussi l'inventaire, la lecture de polygones XML et l'inspection bornée d'une lame avec OpenSlide. Ce module exploratoire ne constitue pas un extracteur complet de cohortes WSI.
 

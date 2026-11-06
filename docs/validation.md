@@ -11,7 +11,11 @@
 | Figures | Matrice de confusion et Grad-CAM inspectées visuellement | Lisibilité, alignement, statut synthétique visible |
 | Notebooks | Schéma valide ; **9 cellules de code exécutées séquentiellement en Python** | 4 cellules d’exploration et 5 de lecture des résultats |
 | Compilation et liens | Modules compilés, liens Markdown locaux contrôlés | Absence d’erreur de syntaxe et de liens internes manquants |
-| Publication | Fichiers source uniquement | Aucun dataset, checkpoint ou résultat médical inventé |
+| Publication | Code, métadonnées, résultats et figures sélectionnées | Archives, cohorte d'images brutes et checkpoints hors Git |
+| Pilote réel WILDS | **688 PNG RGBA opaques vérifiés**, aucun doublon exact fichier/pixels | CRC ZIP, SHA-256, dimensions, séparations et provenance du miroir conservés |
+| Paire WSI/XML | **Deux MD5 conformes** à la distribution officielle | Une lame, trois régions avec masques et superpositions |
+| Comparaison réelle | **Deux modèles, trois époques chacun** | 416 patchs train ; 128 de validation ; AP 0,796 et 0,895 |
+| Interprétation réelle | Matrice, ROC/PR et **3 Grad-CAM inspectés** | Un TP, un TN à carte nulle et un FN ; aucun FP disponible pour le modèle retenu |
 
 La suite inclut les fuites de patientes/lames, les centres OOD, les doublons et alias de chemins, les métadonnées manquantes, les masques XML, les métriques non définies, les règles pN sur catégories connues, la sélection de groupes, les paramètres invalides et la détection de manifeste/prédictions modifiés.
 
@@ -43,11 +47,13 @@ OpenSlide Python 1.4.7 et openslide-bin 4.0.1.2 ont ouvert la vraie lame `patien
 
 ## Validation scientifique restant à effectuer
 
-- Source réelle, annotations, qualité et résolution des images.
-- Audit du manifeste réel et vérification des identifiants du lot retenu.
-- Entraînements ImageNet sur CAMELYON17, choix sur validation et stabilité des résultats.
-- Évaluation finale, faux négatifs réels, écarts entre centres et commentaires Grad-CAM.
+- Confirmation de la provenance du miroir et des conventions spatiales entre WILDS et WSI ; la lecture de la paire originale ne valide pas tous les patchs du miroir.
+- Cohorte finale plus large, justifiée, auditée et relue par le groupe.
+- Stabilité sur plusieurs graines et éventuel choix de seuil selon un objectif défini sur validation.
+- Évaluation finale sur le test, qui n'a encore fourni aucune prédiction.
 - Niveau ganglion/patiente selon les données et le périmètre confirmé.
 - Reproduction indépendante par un autre membre.
 
 Aucun des tests techniques ne constitue une performance médicale ou un résultat scientifique du projet.
+
+Les expériences réelles du pilote, distinctes des tests techniques, sont décrites dans [le bilan](../reports/pilot_real/README.md). Les configurations enregistrent le commit d'exécution et son état propre. Les CSV de prédictions publiés ont uniquement leurs chemins rendus relatifs ; les empreintes des fichiers d'origine et publiés sont conservées séparément. Les figures ont été vérifiées visuellement ; l'espacement des titres de la planche d'exploration a été corrigé après inspection.

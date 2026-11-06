@@ -29,7 +29,7 @@ ROC-AUC et Average Precision évaluent un classement sur plusieurs seuils. Une A
 
 Comparer les modèles sur le même manifeste et la même validation. Rapporter l'effectif en patchs mais aussi en lames/groupes patient. Documenter les graines et le budget. Une seule exécution ne démontre pas la stabilité d'une amélioration.
 
-Le test OOD officiel WILDS provient d'un seul centre. Les écarts entre validation ID, validation OOD et test OOD sont informatifs, mais ils combinent changement de centre, de cas et d'effectifs. Ne pas leur donner une interprétation causale automatique.
+Le test OOD officiel WILDS provient d'un seul centre. Notre protocole exclut `id_val`, partagé avec train, et ne compare donc pas validation ID et OOD. Les écarts entre les ensembles conservés combinent changement de centre, de cas et d'effectifs ; ne pas leur donner une interprétation causale automatique. Le [bilan du pilote réel](../reports/pilot_real/README.md) applique ces précautions à des résultats mesurés.
 
 Les patchs d'une lame sont corrélés. Pour ajouter des intervalles de confiance, rééchantillonner les groupes pertinents et justifier leur indépendance. Le starter n'affiche aucun intervalle calculé en faisant semblant que tous les patchs sont indépendants.
 

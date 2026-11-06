@@ -44,7 +44,7 @@ def main(argv=None):
     ax.figure.savefig(out / 'distribution.png', dpi=160)
     plt.close(ax.figure)
     fig, axes = plt.subplots(2, args.examples_per_class,
-                             figsize=(2.6 * args.examples_per_class, 5.8), squeeze=False)
+                             figsize=(2.6 * args.examples_per_class, 6.8), squeeze=False)
     selections = []
     for label in ('0', '1'):
         candidates = train[train.label == label].sort_values('path')
@@ -61,7 +61,7 @@ def main(argv=None):
                 ax.imshow(image.convert('RGB'))
             ax.set_title(f'Classe {label} · centre {row.center_id}\n{width} × {height} pixels', fontsize=9)
     fig.suptitle(prefix + 'Échantillon de train — vérifier qualité et label')
-    fig.tight_layout()
+    fig.tight_layout(h_pad=2.0, rect=(0, 0, 1, .94))
     fig.savefig(out / 'training_examples.png', dpi=160)
     plt.close(fig)
     pd.concat(selections).to_csv(out / 'example_selection.csv', index=False)

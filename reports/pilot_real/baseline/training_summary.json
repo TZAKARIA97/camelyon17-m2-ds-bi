@@ -1,0 +1,6 @@
+{
+  "elapsed_seconds": 8.822645354000088,
+  "best_validation_ap": 0.7960461697995735,
+  "dataset_kind": "provided_not_clinically_validated",
+  "epochs_run": 3
+}

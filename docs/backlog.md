@@ -7,12 +7,12 @@ Statuts : À faire → En cours → À relire → Terminé. Un responsable + un 
 | 01 | P0 | Publier le code et inviter l’équipe | Code vérifié ; 5 accès acceptés | Zaki | Code intégré ; invitations en attente des comptes |
 | 02 | P0 | Confirmer deadline, GPU, disque, périmètre pN | décisions consignées | Coordination | À faire |
 | 03 | P0 | Tester ASAP puis QuPath si besoin | TIFF + XML superposés, capture et note | Collègue visualisation | À faire |
-| 04 | P0 | Inventorier un lot réel | CSV, source, tailles, annotations vérifiées | Données | À faire |
-| 05 | P0 | Inspecter une lame en Python | miniature, patches et masques relus | Préparation | À faire |
-| 06 | P1 | Importer WILDS et auditer | tableau centres/classes/splits sans fuite | Données + Modèle | À faire |
-| 07 | P1 | Baseline ResNet18 | config, logs, modèle, résultats validation | Modèle | À faire |
-| 08 | P1 | Tester une amélioration isolée | comparaison au même protocole | Modèle | À faire |
-| 09 | P1 | Erreurs et Grad-CAM | TP/TN/FP/FN réels commentés | Évaluation | Export testé sur synthétique ; analyse réelle à faire |
+| 04 | P0 | Inventorier un lot réel | CSV, source, tailles, annotations vérifiées | Données | Pilote réel documenté ; cohorte finale à décider |
+| 05 | P0 | Inspecter une lame en Python | miniature, patches et masques relus | Préparation | Paire MD5 vérifiée et 3 régions inspectées ; relecture groupe à faire |
+| 06 | P1 | Importer WILDS et auditer | tableau centres/classes/splits sans fuite | Données + Modèle | 688 patchs contrôlés, id_val exclu explicitement ; à relire |
+| 07 | P1 | Baseline ResNet18 | config, logs, modèle, résultats validation | Modèle | Pilote exécuté : AP 0,796 ; reproduction groupe à faire |
+| 08 | P1 | Tester une amélioration isolée | comparaison au même protocole | Modèle | Dernier bloc dégelé : AP 0,895 ; stabilité à vérifier |
+| 09 | P1 | Erreurs et Grad-CAM | TP/TN/FP/FN réels commentés | Évaluation | 3 cartes réelles commentées ; aucun FP disponible ; masques correspondants à contrôler |
 | 10 | P1 | Étudier pN selon périmètre convenu | règles justes, limites et/ou évaluation réelle distinctes | Évaluation + Données | À faire |
 | 11 | P1 | Rapport 15 pages | sources, figures, méthodologie, limites relues | Tous | À faire |
 | 12 | P1 | Oral 10 min | répétition et questions croisées | Tous | À faire |
