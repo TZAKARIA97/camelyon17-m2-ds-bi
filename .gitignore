@@ -1,0 +1,60 @@
+# Python et environnements locaux
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.ipynb_checkpoints/
+.venv/
+venv/
+env/
+*.egg-info/
+build/
+dist/
+
+# Secrets et réglages locaux
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
+
+# Jeux de données, caches et téléchargements
+data/raw/
+data/interim/
+data/processed/
+data/external/
+data/patches/
+datasets/
+.cache/
+*.zip
+*.tar
+*.tar.gz
+*.tgz
+*.svs
+*.ndpi
+*.tif
+*.tiff
+*.h5
+*.hdf5
+*.npy
+*.npz
+
+# Modèles et sorties d'exécution
+*.pt
+*.pth
+*.ckpt
+*.onnx
+runs/
+wandb/
+mlruns/
+outputs/*
+!outputs/README.md
+!outputs/.gitkeep
+
+# Une figure choisie pour le rapport peut être ajoutée dans reports/figures/
+# après vérification de sa provenance et de son autorisation de diffusion.
