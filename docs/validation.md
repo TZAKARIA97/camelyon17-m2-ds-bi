@@ -4,7 +4,7 @@
 
 | Contrôle | Résultat | Portée |
 | --- | --- | --- |
-| Suite automatisée | **27 tests réussis, aucun ignoré** | Logique, calculs, configuration, provenance et pipeline tensoriel |
+| Suite automatisée | **33 tests réussis, aucun ignoré** | Logique, HTTP Range borné, exclusion ID explicite, XML, calculs, configuration, provenance et pipeline tensoriel |
 | Démonstration complète | **Terminée** sur 24 images de bruit | Audit → exploration → entraînement → évaluation → rapport → Grad-CAM |
 | Poids ImageNet | **Téléchargés et chargés** ; passe avant avec tête binaire réussie | Vérification des poids officiels, aucune performance médicale |
 | Fine-tuning et perte pondérée | **Exécutés** pendant une époque synthétique | Vérification du second mode, pas comparaison scientifique |
@@ -39,7 +39,7 @@ Ce contrôle valide le code des cellules. Il ne remplace pas un essai de l’int
 
 Python 3.12 ; NumPy 2.3.5 ; pandas 2.2.3 ; Pillow 13.0.0 ; scikit-learn 1.8.0 ; torch 2.15.0+cpu ; torchvision 0.29.2+cpu ; matplotlib 3.10.8. Outils de notebooks installés : nbformat 5.11.1, nbclient 0.11.0, ipykernel 7.4.0.
 
-OpenSlide Python 1.4.7 et openslide-bin 4.0.1.2 avaient été importés lors de la préparation du starter ; aucune vraie lame n’a été ouverte. Windows, CUDA et le poste ASAP du groupe ne sont pas validés par ces contrôles Linux/CPU.
+OpenSlide Python 1.4.7 et openslide-bin 4.0.1.2 ont ouvert la vraie lame `patient_089_node_3.tif`, dont le MD5 correspond à la distribution officielle. Trois régions, masques et superpositions ont été exportés ; une miniature annotée et une superposition ont été inspectées visuellement. Le XML réel utilise `Tumor`, alias maintenant pris en charge et testé. Windows, CUDA et le poste ASAP du groupe ne sont pas validés par ces contrôles Linux/CPU.
 
 ## Validation scientifique restant à effectuer
 

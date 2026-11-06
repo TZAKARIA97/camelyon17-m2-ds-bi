@@ -17,4 +17,14 @@ Le contrôle de groupe porte sur les identifiants artificiels fournis par CAMELY
 
 Les empreintes du manifeste, du checkpoint et des prédictions détectent les remplacements de ces fichiers. Elles ne constituent pas une empreinte exhaustive de toutes les images. La source, les checksums de distribution lorsqu’ils existent et le contrôle des images doivent donc être conservés séparément. L’export Grad-CAM recalcule les scores des seuls exemples sélectionnés.
 
-La présence d’un seul centre dans le test OOD WILDS limite les conclusions de généralisation. Comparer les ensembles ID/OOD avec leurs rôles distincts et éviter d’attribuer tout écart au centre de façon causale.
+La présence d’un seul centre dans le test OOD WILDS limite les conclusions de généralisation. Notre politique `exclude-id-val` retire la validation interne qui partage des groupes avec train et conserve les autres ensembles officiels. Elle ne permet pas une comparaison ID/OOD. Éviter d’attribuer tout écart entre ensembles au centre de façon causale.
+
+## Pilote réel du 6 novembre 2026
+
+- Source : miroir communautaire figé CAMELYON17-WILDS 1.0 ; identité binaire avec le bundle original non vérifiée.
+- Sélection : graine 42, au plus 10 groupes par ensemble/centre, 16 patchs par groupe, tirage sans utiliser le label ; 688 patchs au total.
+- Un premier essai à 2 groupes par centre donnait un test sans patch positif. Le plafond a été élargi à tous les groupes disponibles pour ce pilote technique. Cette adaptation après lecture des effectifs est consignée ; elle n'est pas une validation indépendante du protocole final.
+- Comparaison : mêmes configurations, même manifeste, trois époques, AP de validation pour le checkpoint et la méthode ; égalité départagée en faveur du modèle gelé.
+- Le test est téléchargé et contrôlé, mais aucune prédiction ni métrique de modèle n'y est calculée à ce stade. Les effectifs de ses labels ont été examinés pour l'audit.
+- L'inspection WSI concerne une lame du centre d'entraînement 4. Elle ne remplace pas un audit de toutes les annotations du pilote.
+- Les données, checkpoints et images brutes restent hors Git ; les paramètres, résultats agrégés et preuves sélectionnées sont publiés.

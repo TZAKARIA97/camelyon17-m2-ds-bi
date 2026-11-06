@@ -5,6 +5,11 @@
 - CAMELYON17 données : https://camelyon17.grand-challenge.org/Data/
 - CAMELYON17 évaluation et pN : https://camelyon17.grand-challenge.org/Evaluation/
 - WILDS : https://github.com/p-lambda/wilds
+- Guide WILDS et volumes : https://wilds.stanford.edu/get_started/
+- Problèmes signalés sur les téléchargements CodaLab : https://github.com/p-lambda/wilds/issues/171 (notre propre requête a répondu 404 le 06/11/2026).
+- Miroir communautaire utilisé, non officiel : https://huggingface.co/datasets/fumiyau/wilds-archive/tree/f7b0ea1de482b7dcccfd9a15af2825a4e70b335d ; équivalence au bundle original non vérifiée.
+- Distribution CAMELYON sur AWS : https://registry.opendata.aws/camelyon/
+- Sommes MD5 officielles utilisées pour la paire WSI/XML : https://camelyon-dataset.s3.us-west-2.amazonaws.com/CAMELYON17/checksums.md5
 - Code de référence du split et du label (consulté le 06/11/2026) : https://github.com/p-lambda/wilds/blob/main/wilds/datasets/camelyon17_dataset.py
 - OpenSlide Python : https://openslide.org/api/python/
 - ASAP : https://github.com/computationalpathologygroup/ASAP

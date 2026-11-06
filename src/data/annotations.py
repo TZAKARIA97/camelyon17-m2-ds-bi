@@ -18,6 +18,10 @@ def read_xml(path):
     polygons = []
     for annotation in root.findall('.//Annotation'):
         group = annotation.get('PartOfGroup', '').lower()
+        # La paire officielle patient_089_node_3 utilise « Tumor ».
+        # Normaliser cet alias documenté, sans accepter un groupe inconnu.
+        if group == 'tumor':
+            group = 'metastases'
         if group not in {'metastases', 'normal'}:
             raise ValueError(f'Groupe XML non pris en charge : {group!r}')
         coordinates = sorted(annotation.findall('./Coordinates/Coordinate'),

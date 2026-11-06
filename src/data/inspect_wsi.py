@@ -19,6 +19,7 @@ def main():
     if not 1 <= args.size <= 4096 or not 1 <= args.max_patches <= 100:
         parser.error('Test borné : taille 1..4096 et 1..100 patches.')
     import openslide  # Dépendance optionnelle, aucun besoin pour l'audit CSV.
+    from PIL import Image, ImageDraw
     polygons = read_xml(args.xml)
     if Path(args.wsi).stem != Path(args.xml).stem:
         parser.error('La lame et le XML doivent porter le même identifiant.')
@@ -36,7 +37,15 @@ def main():
             if x < 0 or y < 0 or x+args.size*ds > slide.dimensions[0] or y+args.size*ds > slide.dimensions[1]:
                 parser.error('Patch hors de la lame : corriger les coordonnées.')
         out.mkdir(parents=True, exist_ok=False)
-        slide.get_thumbnail((1600, 1600)).save(out / 'thumbnail.png')
+        thumbnail = slide.get_thumbnail((1600, 1600)).convert('RGB')
+        thumbnail.save(out / 'thumbnail.png')
+        annotated = thumbnail.copy()
+        draw = ImageDraw.Draw(annotated)
+        for polygon in polygons:
+            points = [(px * annotated.width / slide.dimensions[0],
+                       py * annotated.height / slide.dimensions[1]) for px, py in polygon.points]
+            draw.line(points + [points[0]], fill='red' if polygon.group == 'metastases' else 'blue', width=2)
+        annotated.save(out / 'thumbnail_annotations.png')
         metadata = {'wsi': str(Path(args.wsi)), 'dimensions': slide.dimensions,
                     'level_dimensions': slide.level_dimensions,
                     'downsamples': slide.level_downsamples,
@@ -49,7 +58,12 @@ def main():
             image = slide.read_region((x, y), args.level, (args.size, args.size)).convert('RGB')
             filename = f'x_{x}_y_{y}_level_{args.level}.png'
             image.save(out / filename)
-            fraction = float(local_mask(polygons, x, y, args.size, ds).mean())
+            mask = local_mask(polygons, x, y, args.size, ds)
+            mask_image = Image.fromarray((mask * 255).astype('uint8'))
+            mask_image.save(out / f'mask_{filename}')
+            tinted = Image.blend(image, Image.new('RGB', image.size, 'red'), 0.35)
+            Image.composite(tinted, image, mask_image).save(out / f'overlay_{filename}')
+            fraction = float(mask.mean())
             rows.append({'path': filename, 'x': x, 'y': y, 'level': args.level,
                          'size': args.size, 'tumor_fraction': fraction,
                          'annotation_label_any': int(fraction > 0)})

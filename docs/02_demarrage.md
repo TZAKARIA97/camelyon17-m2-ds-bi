@@ -17,23 +17,23 @@ Les notebooks sont facultatifs pour exécuter les scripts. Pour les ouvrir : ins
 
 ## 2. Obtenir les données sans téléchargement aveugle
 
-Choisir la source et noter version, licence, provenance, volume et lieu de stockage. La source officielle WILDS est citée dans `docs/sources.md`. Son téléchargement standard récupère le bundle ; sélectionner un pilote ensuite ne réduit pas rétroactivement ce téléchargement.
+La source retenue est CAMELYON17-WILDS 1.0, complétée par une paire WSI/XML originale. Le [guide d'accès aux données](acces_donnees.md) fournit les téléchargements partiels, leur provenance et leurs limites. La commande `python -m src.data.acquire_wilds --out data/wilds/pilot_download` prépare directement un pilote de 688 patchs, sans récupérer les six ZIP complets. Pour la suite, son manifeste est `data/wilds/pilot_download/pilot.csv` : remplacer par ce chemin les occurrences de `data/manifests/wilds_pilot.csv` ci-dessous.
 
 Si les données existent déjà sur un serveur, un disque partagé ou une plateforme de calcul, lancer le pipeline à proximité des données. Le convertisseur puis le sélecteur ci-dessous peuvent travailler sur les seules métadonnées : la colonne `path` du manifeste réduit indique les images à rendre accessibles. Il faut ensuite vérifier leur présence avant l'entraînement.
 
-Ne pas comparer une version Kaggle et WILDS sans contrôler labels, patientes, centres et séparation. Aucun téléchargement ni compte externe n'est déclenché automatiquement.
+Ne pas comparer une version Kaggle et WILDS sans contrôler labels, patientes, centres et séparation. Seuls les scripts explicites d'acquisition téléchargent des données ; les convertisseurs et audits travaillent sur les fichiers locaux.
 
 ## 3. Créer puis réduire le manifeste WILDS
 
-Le dossier local attendu contient `metadata.csv` et `patches/` :
+Cette étape est facultative si le script d'acquisition a déjà produit `pilot.csv`. Pour un dossier WILDS local contenant `metadata.csv` et `patches/` :
 
 ```bash
-python -m src.data.wilds_manifest --root data/wilds/camelyon17_v1.0 --out data/manifests/wilds_patches.csv
-python -m src.data.subset --manifest data/manifests/wilds_patches.csv --patients-per-group 2 --patches-per-patient 128 --seed 42 --out data/manifests/wilds_pilot.csv
+python -m src.data.wilds_manifest --root data/wilds/camelyon17_v1.0 --split-policy exclude-id-val --out data/manifests/wilds_patches.csv
+python -m src.data.subset --manifest data/manifests/wilds_patches.csv --patients-per-group 10 --patches-per-patient 16 --seed 42 --out data/manifests/wilds_pilot.csv
 python -m src.data.audit data/manifests/wilds_pilot.csv --check-files
 ```
 
-Le premier script reprend le schéma officiel. Le second tire au plus deux groupes patient par couple ensemble/centre puis au plus 128 patchs par groupe. Il ne sélectionne pas sur le label et ne déplace aucune patiente entre ensembles. Le fichier `.selection.json` conserve paramètres, identifiants sélectionnés et empreintes.
+Le premier script conserve les train/val/test officiels et exclut explicitement `id_val`, qui partage des groupes et des lames avec train. Le second tire au plus dix groupes patient par couple ensemble/centre puis seize patchs par groupe. Il ne sélectionne pas sur le label et ne déplace aucune patiente entre ensembles. Le fichier `.selection.json` conserve paramètres, identifiants sélectionnés et empreintes.
 
 Ce pilote réduit le calcul et peut manquer une classe : le modèle refuse alors l'entraînement. Il faut justifier une sélection plus large, pas supprimer le contrôle. Ses scores ne représentent pas le benchmark complet.
 
@@ -80,7 +80,7 @@ python -m src.visualization.report --evaluation outputs/final_test --out outputs
 
 Le script produit scores par patch, métriques globales, par centre et par lame, et empreintes de provenance. Le rapport ajoute matrice de confusion, courbes ROC/PR, tables et une description des erreurs. Les métriques par lame restent des métriques de patchs regroupés : ce n'est pas une classification de lame.
 
-Pour WILDS officiel, le test OOD correspond à un centre. Comparer validation ID, validation OOD et test OOD avec leurs rôles et effectifs ; ne pas inventer plusieurs centres dans ce test ni attribuer toute différence au centre seul.
+Pour WILDS officiel, le test OOD correspond à un centre. Notre protocole exclut la validation ID ; comparer uniquement les ensembles effectivement conservés avec leurs rôles et effectifs. Ne pas inventer plusieurs centres dans ce test ni attribuer toute différence au centre seul. Pendant le pilote, produire les figures et Grad-CAM sur validation et garder le test sans prédictions.
 
 ## 7. Exporter et interpréter les Grad-CAM
 
@@ -96,11 +96,12 @@ Toutes les cartes expliquent la classe tumorale, y compris lorsque le modèle pr
 
 ```bash
 python -m pip install -r requirements-wsi-tested.txt
+python -m src.data.acquire_wsi_example
 python -m src.data.inventory --root data/raw --out data/manifests/slides.csv
-python -m src.data.inspect_wsi --wsi data/raw/centre_0/patient_XXX_node_Y.tif --xml data/raw/annotations/patient_XXX_node_Y.xml --coords data/manifests/coords.csv --out outputs/inspection_01
+python -m src.data.inspect_wsi --wsi data/raw/wsi_example/patient_089_node_3.tif --xml data/raw/wsi_example/patient_089_node_3.xml --coords examples/coords_patient_089_node_3.csv --size 384 --level 2 --out outputs/inspection_01
 ```
 
-Les noms et le centre ci-dessus sont des exemples. `coords.csv` contient des coordonnées vérifiées en pixels niveau 0. L'inspection exporte au plus six régions par défaut, une miniature et les métadonnées de résolution. Aucune coordonnée inventée n'est livrée. Ne pas traiter l'absence de XML comme un label négatif.
+Cette paire a été réellement téléchargée et ses MD5 vérifiés. Les coordonnées sont dérivées de trois annotations de cette lame précise, en pixels niveau 0. L'inspection exporte les régions, masques, superpositions, miniatures et métadonnées de résolution. Ne pas réutiliser ces coordonnées sur une autre lame ni traiter l'absence de XML comme un label négatif.
 
 ## 9. Préparer le rendu
 

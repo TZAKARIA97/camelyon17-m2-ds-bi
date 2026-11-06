@@ -5,7 +5,7 @@ import pandas as pd
 from .audit import audit
 
 
-def convert(root):
+def convert(root, split_policy='strict'):
     """Reproduire le split officiel : centre 1 validation OOD, centre 2 test OOD.
 
     La numérotation est celle du paquet WILDS, pas celle d'un autre export.
@@ -29,6 +29,14 @@ def convert(root):
     })
     result['path'] = [str(root / 'patches' / s / f'patch_{s}_x_{x}_y_{y}.png')
                       for s, x, y in zip(result.slide_id, df.x_coord, df.y_coord)]
+    if split_policy not in {'strict', 'exclude-id-val'}:
+        raise ValueError('Politique de séparation inconnue.')
+    # Le CSV réel partage 26 groupes patient et 30 lames entre train et id_val.
+    # Exclure id_val conserve les train/val/test OOD originaux sans déplacer de patch.
+    result['original_split'] = result['split']
+    result['split_policy'] = split_policy
+    if split_policy == 'exclude-id-val':
+        result = result[result.split != 'id_val'].copy()
     audit(result)
     return result
 
@@ -37,8 +45,9 @@ def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument('--root', required=True, help='Dossier contenant metadata.csv et patches/')
     parser.add_argument('--out', required=True)
+    parser.add_argument('--split-policy', choices=['strict', 'exclude-id-val'], default='strict')
     args = parser.parse_args()
-    result = convert(args.root)
+    result = convert(args.root, args.split_policy)
     Path(args.out).parent.mkdir(parents=True, exist_ok=True)
     result.to_csv(args.out, index=False)
     print(audit(result))
