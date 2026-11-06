@@ -6,7 +6,8 @@ import tempfile
 import unittest
 from unittest.mock import patch
 import zipfile
-from src.data.acquire_wilds import RangeReader, safe_target
+from src.data.acquire_wilds import RangeReader, safe_target, validate_patch, preserve_or_write
+from PIL import Image
 from src.data.wilds_manifest import convert
 from src.data.annotations import read_xml, local_mask
 import pandas as pd
@@ -23,6 +24,25 @@ class Response(io.BytesIO):
 
 
 class RangeTests(unittest.TestCase):
+    def test_opaque_rgba_is_supported_but_transparency_is_rejected(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            path = Path(tmp)/'image.png'
+            for mode, color in [('RGB', (10,20,30)), ('RGBA', (10,20,30,255))]:
+                Image.new(mode, (96,96), color).save(path)
+                self.assertEqual(validate_patch(path), mode)
+            Image.new('RGBA', (96,96), (10,20,30,0)).save(path)
+            with self.assertRaisesRegex(ValueError, 'Transparence'):
+                validate_patch(path)
+
+    def test_resume_never_overwrites_a_different_manifest(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            path = Path(tmp)/'pilot.csv'
+            preserve_or_write(path, b'original')
+            preserve_or_write(path, b'original')
+            with self.assertRaisesRegex(ValueError, 'incompatible'):
+                preserve_or_write(path, b'changed')
+            self.assertEqual(path.read_bytes(), b'original')
+
     def test_official_tumor_xml_alias_produces_a_positive_mask(self):
         with tempfile.TemporaryDirectory() as tmp:
             path = Path(tmp)/'example.xml'

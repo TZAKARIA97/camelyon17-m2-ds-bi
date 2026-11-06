@@ -6,11 +6,13 @@ L'identité binaire avec l'archive CodaLab indisponible n'est pas établie.
 import argparse
 from concurrent.futures import ThreadPoolExecutor
 import io
+import hashlib
 import json
 from pathlib import Path, PurePosixPath
 import re
 from urllib.request import Request, urlopen
 import zipfile
+import zlib
 from .wilds_manifest import convert
 from .subset import subset
 from .audit import audit
@@ -85,6 +87,27 @@ def safe_target(root, name):
     return target
 
 
+def preserve_or_write(path, payload):
+    """Une reprise conserve uniquement des fichiers identiques à la source attendue."""
+    if path.exists():
+        if sha256_file(path) != hashlib.sha256(payload).hexdigest():
+            raise ValueError(f'Fichier existant incompatible avec cette sélection : {path}')
+    else:
+        path.write_bytes(payload)
+
+
+def validate_patch(path):
+    """Accepter RGB ou RGBA opaque ; la conversion RGB est faite par le modèle."""
+    from PIL import Image
+    with Image.open(path) as image:
+        if image.size != (96, 96) or image.mode not in {'RGB', 'RGBA'}:
+            raise ValueError('Image incompatible avec le format WILDS attendu.')
+        image.load()
+        if image.mode == 'RGBA' and image.getchannel('A').getextrema() != (255, 255):
+            raise ValueError('Transparence non opaque : définir le traitement avant apprentissage.')
+        return image.mode
+
+
 def main(argv=None):
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument('--out', default='data/wilds/pilot_download', help='Nouveau dossier uniquement')
@@ -92,14 +115,19 @@ def main(argv=None):
     parser.add_argument('--patches-per-patient', type=int, default=16)
     parser.add_argument('--seed', type=int, default=42)
     parser.add_argument('--metadata-only', action='store_true')
+    parser.add_argument('--resume', action='store_true', help='Reprendre le même dossier et les mêmes paramètres, après vérification')
     parser.add_argument('--split-policy', choices=['strict', 'exclude-id-val'], default='exclude-id-val')
     args = parser.parse_args(argv)
     if args.patients_per_group < 1 or args.patches_per_patient < 1:
         parser.error('Les plafonds doivent être strictement positifs.')
     root = Path(args.out).resolve()
-    if root.exists():
+    if root.exists() and not args.resume:
         raise FileExistsError('Choisir un dossier nouveau ; les données existantes sont conservées.')
-    root.mkdir(parents=True)
+    if args.resume and not (root/'pilot.csv').is_file():
+        raise ValueError('Une reprise exige un manifeste pilot.csv déjà créé.')
+    if (root/'acquisition.json').exists():
+        raise FileExistsError('Cette acquisition est déjà terminée ; utiliser audit --check-files.')
+    root.mkdir(parents=True, exist_ok=args.resume)
     with urlopen(f'https://huggingface.co/api/datasets/{REPOSITORY}/tree/{REVISION}?recursive=true', timeout=30) as response:
         listing = json.load(response)
     files = [entry for entry in listing if re.fullmatch(
@@ -132,12 +160,12 @@ def main(argv=None):
     archive = archives[locations[metadata_name]][2]
     if archive.getinfo(metadata_name).file_size > 100*1024**2:
         raise ValueError('Métadonnées trop volumineuses.')
-    metadata_path.write_bytes(archive.read(metadata_name))  # zipfile vérifie le CRC.
+    preserve_or_write(metadata_path, archive.read(metadata_name))  # zipfile vérifie le CRC.
     frame = convert(metadata_path.parent, args.split_policy)
-    frame.to_csv(root / 'all_patches.csv', index=False)
+    preserve_or_write(root/'all_patches.csv', frame.to_csv(index=False).encode('utf-8'))
     selected = subset(frame, args.patients_per_group, args.patches_per_patient, args.seed)
     selected['source'] = f'camelyon17-wilds-v1.0-community-mirror@{REVISION}'
-    selected.to_csv(root / 'pilot.csv', index=False)
+    preserve_or_write(root/'pilot.csv', selected.to_csv(index=False).encode('utf-8'))
     print(audit(selected), flush=True)
     groups = [[] for _ in archives]
     for path in selected.path:
@@ -145,6 +173,8 @@ def main(argv=None):
         if name not in locations:
             raise ValueError(f'Image du manifeste absente des ZIP : {name}')
         groups[locations[name]].append(name)
+
+    reused = [0 for _ in archives]
 
     def extract_group(index):
         archive = archives[index][2]
@@ -156,7 +186,13 @@ def main(argv=None):
                 raise ValueError('Patch plus grand que prévu.')
             target = safe_target(root, name)
             target.parent.mkdir(parents=True, exist_ok=True)
-            target.write_bytes(archive.read(info))
+            if args.resume and target.exists():
+                payload = target.read_bytes()
+                if len(payload) != info.file_size or zlib.crc32(payload) != info.CRC:
+                    raise ValueError(f'Patch existant corrompu ; le conserver pour diagnostic : {target}')
+                reused[index] += 1
+            else:
+                target.write_bytes(archive.read(info))
             if position % 32 == 0:
                 print(f'Archive {index+1} : {position}/{len(ordered)} patchs', flush=True)
         print(f'Archive {index+1} : {len(groups[index])} patchs récupérés', flush=True)
@@ -165,12 +201,10 @@ def main(argv=None):
         with ThreadPoolExecutor(max_workers=6) as pool:
             list(pool.map(extract_group, range(len(archives))))
         audit(selected, check_files=True)
-        from PIL import Image
+        image_modes = {}
         for path in selected.path:
-            with Image.open(path) as image:
-                if image.size != (96, 96) or image.mode != 'RGB':
-                    raise ValueError('Image incompatible avec le format WILDS attendu.')
-                image.load()
+            mode = validate_patch(path)
+            image_modes[mode] = image_modes.get(mode, 0) + 1
     provenance = {'repository': REPOSITORY, 'revision': REVISION, 'official_mirror': False,
                   'equivalence_to_official_archive': 'not_verified_original_endpoint_404',
                   'metadata_sha256': sha256_file(metadata_path), 'manifest_sha256': sha256_file(root/'pilot.csv'),
@@ -178,6 +212,9 @@ def main(argv=None):
                   'patches_per_patient': args.patches_per_patient, 'selected_patches': len(selected),
                   'retained_metadata_rows': len(frame), 'split_policy': args.split_policy,
                   'images_downloaded': not args.metadata_only,
+                  'image_modes': image_modes if not args.metadata_only else {},
+                  'resumed': args.resume, 'reused_patches': sum(reused),
+                  'transfer_accounting': 'this_attempt_excludes_previous_attempts',
                   'bytes_transferred_archives': sum(r.transferred for _, r, _ in archives),
                   'archive_total_bytes': sum(f['size'] for f in files),
                   'patch_sha256': {Path(p).relative_to(root).as_posix(): sha256_file(p)

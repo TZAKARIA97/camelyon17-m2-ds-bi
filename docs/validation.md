@@ -4,7 +4,7 @@
 
 | Contrôle | Résultat | Portée |
 | --- | --- | --- |
-| Suite automatisée | **33 tests réussis, aucun ignoré** | Logique, HTTP Range borné, exclusion ID explicite, XML, calculs, configuration, provenance et pipeline tensoriel |
+| Suite automatisée | **35 tests réussis, aucun ignoré** | Logique, HTTP Range borné, reprise sans écrasement, RGB/RGBA opaque, exclusion ID explicite, XML, calculs, configuration, provenance et pipeline tensoriel |
 | Démonstration complète | **Terminée** sur 24 images de bruit | Audit → exploration → entraînement → évaluation → rapport → Grad-CAM |
 | Poids ImageNet | **Téléchargés et chargés** ; passe avant avec tête binaire réussie | Vérification des poids officiels, aucune performance médicale |
 | Fine-tuning et perte pondérée | **Exécutés** pendant une époque synthétique | Vérification du second mode, pas comparaison scientifique |

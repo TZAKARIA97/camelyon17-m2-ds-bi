@@ -14,7 +14,7 @@ python -m src.data.explore --manifest data/wilds/pilot_download/pilot.csv --out 
 
 Le téléchargement standard de WILDS repose sur un ancien lien CodaLab qui a répondu **HTTP 404 lors de notre essai du 6 novembre 2026**. Le script utilise donc le miroir communautaire [fumiyau/wilds-archive](https://huggingface.co/datasets/fumiyau/wilds-archive), à la révision figée `f7b0ea1de482b7dcccfd9a15af2825a4e70b335d`. Ce n'est pas un miroir officiel ; l'identité binaire avec l'archive CodaLab indisponible n'a pas été démontrée. La source et cette limite doivent apparaître dans le rapport.
 
-Le script lit les index des six ZIP par plages HTTP, extrait `metadata.csv`, sélectionne les lignes, puis récupère uniquement les PNG correspondants. Il **ne télécharge pas les six ZIP complets**. Il refuse une réponse HTTP complète, une plage incorrecte, un fichier trop grand ou un dépassement du budget de transfert. La connexion doit autoriser les requêtes HTTP Range et les redirections de Hugging Face.
+Le script lit les index des six ZIP par plages HTTP, extrait `metadata.csv`, sélectionne les lignes, puis récupère uniquement les PNG correspondants. Il **ne télécharge pas les six ZIP complets**. Il refuse une réponse HTTP complète, une plage incorrecte, un fichier trop grand ou un dépassement du budget de transfert. La connexion doit autoriser les requêtes HTTP Range et les redirections de Hugging Face. Le faible volume n'implique pas un téléchargement plus rapide : plusieurs centaines de petites requêtes peuvent être lentes sur une connexion à forte latence. Le budget de 128 Mio par archive est conçu pour un petit pilote ; une grande cohorte exige un stockage partagé ou une autre stratégie d'acquisition.
 
 Paramètres par défaut : graine 42, au plus 10 groupes patient par couple ensemble/centre et 16 patchs par groupe. Ici, le plafond de 10 inclut les 43 groupes disponibles dans train/val/test, soit **688 patchs**. Le tirage des patchs n'utilise pas leurs labels. Cela donne un essai de fonctionnement, pas un échantillon représentatif de la population clinique ni le benchmark complet. Le poids identique attribué aux groupes modifie notamment la prévalence.
 
@@ -25,10 +25,16 @@ Fichiers créés :
 | `camelyon17_v1.0/metadata.csv` | Métadonnées originales conservées sans modification |
 | `all_patches.csv` | 422 394 lignes retenues après exclusion documentée de `id_val` ; toutes les images ne sont pas téléchargées |
 | `pilot.csv` | Les seules images du pilote, avec leur split, label et chemin local |
-| `camelyon17_v1.0/patches/` | PNG sélectionnés, contrôlés en RGB 96 × 96 et par CRC ZIP |
+| `camelyon17_v1.0/patches/` | PNG sélectionnés, contrôlés en RGB ou RGBA opaque 96 × 96 et par CRC ZIP ; conversion RGB à l'entrée du modèle |
 | `acquisition.json` | Source figée, paramètres, volumes transférés et empreintes SHA-256 des métadonnées et images |
 
-Le script refuse un dossier déjà existant. En cas d'échec, garder le diagnostic et choisir un nouveau dossier pour réessayer ; aucune reprise automatique n'est implémentée. Les chemins du manifeste sont locaux : régénérer le manifeste après déplacement. Les empreintes du manifeste peuvent différer entre deux machines à cause de ces chemins ; les chemins relatifs et empreintes des PNG dans `acquisition.json` permettent de comparer le contenu.
+Le script refuse un dossier déjà existant par défaut. Si une tentative a déjà créé `pilot.csv`, la même commande avec `--resume` reprend les fichiers intacts : les index distants sont relus, les métadonnées et la sélection doivent être identiques, puis chaque PNG conservé doit avoir la taille et le CRC attendus. Un fichier différent ou corrompu bloque la reprise et est conservé pour diagnostic. Aucun fichier utilisateur différent n'est écrasé. Le volume enregistré concerne **cette tentative seulement**, sans inclure les transferts précédents.
+
+```bash
+python -m src.data.acquire_wilds --out data/wilds/pilot_download --resume
+```
+
+Les chemins du manifeste sont locaux : régénérer le manifeste après déplacement. Les empreintes du manifeste peuvent différer entre deux machines à cause de ces chemins ; les chemins relatifs et empreintes des PNG dans `acquisition.json` permettent de comparer le contenu.
 
 ## 2. Comprendre la séparation retenue
 
