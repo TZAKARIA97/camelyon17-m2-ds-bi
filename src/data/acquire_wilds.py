@@ -24,6 +24,7 @@ class RangeReader(io.RawIOBase):
     """Un fichier distant seekable ; refus explicite d'une réponse HTTP complète."""
     def __init__(self, url, size, budget=128 * 1024**2):
         self.url, self.size, self.budget = url, size, budget
+        self.resolved_url = url
         self.position = self.transferred = 0
         self.cache_start, self.cache = 0, b''
 
@@ -53,13 +54,16 @@ class RangeReader(io.RawIOBase):
             if length > 64*1024**2 or self.transferred+length > self.budget:
                 raise ValueError('Budget de transfert partiel dépassé ; aucun téléchargement complet engagé.')
             end = self.position+length-1
-            request = Request(self.url, headers={'Range': f'bytes={self.position}-{end}',
+            request = Request(self.resolved_url, headers={'Range': f'bytes={self.position}-{end}',
                                                 'User-Agent': 'camelyon17-m2-pilot/1.0'})
             with urlopen(request, timeout=45) as response:
                 expected = f'bytes {self.position}-{end}/{self.size}'
                 if response.status != 206 or response.headers.get('Content-Range') != expected:
                     raise ValueError('Le serveur ne respecte pas la plage demandée ; transfert arrêté.')
                 payload = response.read(length+1)
+                # Réutiliser la destination HTTP évite une redirection par patch.
+                # Cette URL temporaire reste uniquement en mémoire, hors provenance.
+                self.resolved_url = response.geturl()
             if len(payload) != length:
                 raise ValueError('Réponse partielle tronquée ou trop longue.')
             self.transferred += length

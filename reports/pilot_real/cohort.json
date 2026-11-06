@@ -1,0 +1,29 @@
+{
+  "purpose": "feasibility_pilot_not_final_evaluation",
+  "selection_seed": 42,
+  "patients_per_split_center": 10,
+  "patches_per_patient": 16,
+  "test_predictions_computed": false,
+  "selected_patch_count": 688,
+  "patient_groups": 43,
+  "slides": 49,
+  "source_metadata_sha256": "a6e3528cf47b59396817749cf40c664730814bbf107fa42ed37951280484ab58",
+  "portable_selection_sha256": "f2c2595145b8de7f1750465a2f6e046992946abd1786ecb30a6073ef26cc910c",
+  "split_summary": {
+    "test": {
+      "patches": 144,
+      "groups": 9,
+      "slides": 10
+    },
+    "train": {
+      "patches": 416,
+      "groups": 26,
+      "slides": 29
+    },
+    "val": {
+      "patches": 128,
+      "groups": 8,
+      "slides": 10
+    }
+  }
+}

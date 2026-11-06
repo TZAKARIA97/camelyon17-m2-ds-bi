@@ -18,6 +18,9 @@ class Response(io.BytesIO):
         self.status = status
         self.headers = {'Content-Range': content_range}
 
+    def geturl(self):
+        return 'https://example.invalid/resolved.zip'
+
 
 class RangeTests(unittest.TestCase):
     def test_official_tumor_xml_alias_produces_a_positive_mask(self):
@@ -52,13 +55,15 @@ class RangeTests(unittest.TestCase):
         requests = []
         def response(request, **kwargs):
             start, end = map(int, re.fullmatch(r'bytes=(\d+)-(\d+)', request.get_header('Range')).groups())
-            requests.append((start, end))
+            requests.append((request.full_url, start, end))
             return Response(payload[start:end+1], 206, f'bytes {start}-{end}/{len(payload)}')
         with patch('src.data.acquire_wilds.urlopen', side_effect=response):
             reader = RangeReader('https://example.invalid/archive.zip', len(payload))
             with zipfile.ZipFile(reader) as archive:
                 self.assertEqual(archive.read('camelyon17_v1.0/metadata.csv'), b'patient,node\n001,0\n')
         self.assertTrue(requests)
+        self.assertEqual(requests[0][0], 'https://example.invalid/archive.zip')
+        self.assertTrue(all(url == 'https://example.invalid/resolved.zip' for url, _, _ in requests[1:]))
 
     def test_full_download_response_is_refused(self):
         response = Response(b'', 200, '')

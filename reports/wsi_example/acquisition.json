@@ -1,0 +1,21 @@
+{
+  "purpose": "one_slide_visual_inspection",
+  "files": [
+    {
+      "file": "patient_089_node_3.xml",
+      "url": "https://camelyon-dataset.s3.us-west-2.amazonaws.com/CAMELYON17/annotations/patient_089_node_3.xml",
+      "bytes": 6042,
+      "md5": "2cc555676fed81bc278c4277088d2e6f",
+      "sha256": "2223706ffeb72bdb9f9bb999e6b638128d54e44e3b046b92c6c712dfd8d2751b",
+      "source_md5_verified": true
+    },
+    {
+      "file": "patient_089_node_3.tif",
+      "url": "https://camelyon-dataset.s3.us-west-2.amazonaws.com/CAMELYON17/images/patient_089_node_3.tif",
+      "bytes": 518910648,
+      "md5": "e8233383eb0b6a475cfd7704e78eb3e9",
+      "sha256": "570b9458fb55d8e7ea68b4486c5c65a70823b7468d2dc9d55d1fe26dd0561b5d",
+      "source_md5_verified": true
+    }
+  ]
+}

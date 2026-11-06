@@ -1,0 +1,5 @@
+split,patches,positive,groups,slides
+id_val,33560,16608,26,30
+test,85054,42527,9,10
+train,302436,151390,26,30
+val,34904,17452,8,10

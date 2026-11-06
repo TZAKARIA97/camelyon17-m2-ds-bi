@@ -9,6 +9,10 @@ Commencer par les labels/métadonnées, puis une paire `patient_XXX_node_Y.tif` 
 
 Pour WILDS, la version étiquetée représente environ 10 Go à télécharger et 15 Go sur disque selon son dépôt ; prévoir aussi l'archive et les sorties. `get_dataset(..., download=True)` télécharge le bundle, même si l'on sous-échantillonne ensuite. Faire un premier test sur un sous-ensemble réduit diminue le calcul, pas nécessairement le téléchargement. Les patches supplémentaires non étiquetés ne sont pas nécessaires à la baseline.
 
+Le dépôt propose maintenant un [accès partiel testé](../docs/acces_donnees.md) : `python -m src.data.acquire_wilds` lit un miroir communautaire figé par plages HTTP, récupère les métadonnées et uniquement les PNG sélectionnés. `python -m src.data.acquire_wsi_example` télécharge une paire TIFF/XML originale d'environ 519 Mo avec contrôle MD5.
+
+L'option explicite `exclude-id-val` retire les 33 560 patchs de validation interne, car leurs groupes patient/lames sont partagés avec train. Les train/val/test OOD d'origine restent inchangés. `original_split` et `split_policy` rendent ce choix visible dans le manifeste. Ne pas annoncer une comparaison ID/OOD avec ce protocole.
+
 ## Manifest d'entraînement `patches.csv`
 
 | Champ obligatoire | Sens |
