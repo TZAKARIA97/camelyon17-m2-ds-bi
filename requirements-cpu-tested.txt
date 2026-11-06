@@ -1,0 +1,6 @@
+# Option CPU vérifiée dans cet environnement. Ne pas employer pour une installation CUDA.
+# Installer d'abord le socle : pip install -r requirements.txt
+# Puis : pip install -r requirements-cpu-tested.txt
+--index-url https://download.pytorch.org/whl/cpu
+torch==2.15.0+cpu
+torchvision==0.29.2+cpu

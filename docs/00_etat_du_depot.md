@@ -1,35 +1,21 @@
 # État du dépôt — 6 novembre 2026
 
-## Publié dans ce dépôt
+## Disponible
 
-- README et limites du périmètre.
-- Roadmap reliée aux livrables demandés.
-- Règles de contribution et modèles de tâche/pull request.
-- Organisation proposée pour cinq personnes.
-- Guide d'import de l'archive de code préparée.
-- Tâches de démarrage dans les Issues GitHub.
+- Code Python : inventaire WSI, conversion WILDS, sélection d'un pilote, audit et exploration.
+- Entraînement ResNet18 et évaluation traçable par patch, centre et lame.
+- Figures de résultats et export Grad-CAM sur succès et erreurs.
+- Démonstration complète sans téléchargement avec 24 images artificielles.
+- Tests de logique, calcul, entraînement/rechargement et provenance.
+- Documentation pédagogique, notebooks, document de travail du rapport et trame d'oral.
+- Issues GitHub et règles de contribution pour l'équipe.
 
-## Code préparé, import restant à effectuer
+L'ancien blocage d'accès aux fichiers est résolu ; l'import manuel du ZIP n'est plus nécessaire. Consulter `validation.md` pour les contrôles effectivement exécutés.
 
-Une archive nommée **CAMELYON17_Demarrage_M2.zip** a été préparée dans la conversation de travail. Elle contient un dossier racine `camelyon17-m2-ds-bi/`.
+## Pas encore démontré
 
-Son contenu n'a pas pu être relu ni transféré pendant l'initialisation de ce dépôt : l'environnement où les fichiers ont été préparés était indisponible. Aucun script, notebook ou résultat de test de cette archive ne doit donc être considéré comme présent ou vérifié sur la branche principale actuelle.
+Aucune donnée réelle CAMELYON17 n'a été identifiée dans les fichiers de travail accessibles. Les manifestes réels livrés sont des en-têtes, pas une cohorte renseignée. Aucun score scientifique réel, diagnostic patient ou compte rendu histologique n'est annoncé.
 
-Après import, réconcilier les fichiers communs à l'archive et au dépôt, vérifier les dépendances, exécuter les tests disponibles et mettre à jour cette page avec les preuves.
+Il reste à rendre accessibles une source vérifiée et ses annotations, valider le périmètre pN, conduire les expériences, interpréter les erreurs, finaliser le rapport de 15 pages et la soutenance de 10 minutes.
 
-## Non réalisé sur données réelles
-
-- Inventaire vérifié de la cohorte de travail.
-- Extraction et contrôle de qualité d'un jeu de patchs.
-- Entraînement et comparaison de modèles.
-- Évaluation finale entre centres.
-- Interprétations fondées sur des prédictions réelles.
-- Agrégation validée au niveau ganglion ou patiente.
-
-Aucune métrique de performance clinique n'est annoncée.
-
-## Accès au groupe
-
-Le propriétaire du dépôt est `TZAKARIA97`. Les quatre autres comptes GitHub ne sont pas identifiés ici. Aucune invitation n'est déclarée envoyée.
-
-Le dépôt est public à la date de vérification. Les règles de branches et un tableau GitHub Projects ne sont pas configurés. Le suivi initial repose sur les Issues et les pull requests.
+Les identifiants des quatre collègues, la date de remise et les ressources du groupe restent à confirmer. Le dépôt est public ; les invitations, protections de branches et un tableau GitHub Projects ne sont pas déclarés configurés.

@@ -1,0 +1,13 @@
+{
+  "seed": 42,
+  "model": "resnet18",
+  "image_size": 96,
+  "batch_size": 32,
+  "epochs": 3,
+  "learning_rate": 0.001,
+  "fine_tune": false,
+  "class_weighted_loss": false,
+  "selection_split": "val",
+  "threshold": 0.5,
+  "num_workers": 0
+}

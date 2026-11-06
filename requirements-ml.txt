@@ -1,0 +1,4 @@
+-r requirements.txt
+# Installer torch et torchvision ensemble via https://pytorch.org/get-started/locally/
+# Puis enregistrer pip freeze dans outputs/<experience>/environment.txt.
+# Aucun couple CUDA/PyTorch n'est présumé compatible avec les PC du groupe.

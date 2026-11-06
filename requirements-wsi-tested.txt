@@ -1,0 +1,4 @@
+# Versions effectivement importées dans l'environnement de vérification.
+-r requirements.txt
+openslide-python==1.4.7
+openslide-bin==4.0.1.2

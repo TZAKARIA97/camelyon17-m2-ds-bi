@@ -1,0 +1,5 @@
+# Socle léger testé ici sous Python 3.12. Les environnements du groupe restent à valider.
+numpy==2.3.5
+pandas==2.2.3
+Pillow==13.0.0
+scikit-learn==1.8.0

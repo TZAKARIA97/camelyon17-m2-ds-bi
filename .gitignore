@@ -29,6 +29,7 @@ data/interim/
 data/processed/
 data/external/
 data/patches/
+data/wilds/
 datasets/
 .cache/
 *.zip
