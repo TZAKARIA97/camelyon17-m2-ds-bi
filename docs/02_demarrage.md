@@ -17,6 +17,8 @@ Les notebooks sont facultatifs pour exécuter les scripts. Pour les ouvrir : ins
 
 ## 2. Obtenir les données sans téléchargement aveugle
 
+La direction actuellement retenue par le groupe est décrite dans [le guide WSI dédié](pipeline_groupe.md). Elle lit les TIFF depuis S3 et ne conserve localement que l'index, les annotations et les patchs choisis. Les étapes WILDS ci-dessous restent une référence reproductible et ne doivent pas être mélangées silencieusement avec les patchs WSI 224 × 224.
+
 La source retenue est CAMELYON17-WILDS 1.0, complétée par une paire WSI/XML originale. Le [guide d'accès aux données](acces_donnees.md) fournit les téléchargements partiels, leur provenance et leurs limites. La commande `python -m src.data.acquire_wilds --out data/wilds/pilot_download` prépare directement un pilote de 688 patchs, sans récupérer les six ZIP complets. Pour la suite, son manifeste est `data/wilds/pilot_download/pilot.csv` : remplacer par ce chemin les occurrences de `data/manifests/wilds_pilot.csv` ci-dessous.
 
 Si les données existent déjà sur un serveur, un disque partagé ou une plateforme de calcul, lancer le pipeline à proximité des données. Le convertisseur puis le sélecteur ci-dessous peuvent travailler sur les seules métadonnées : la colonne `path` du manifeste réduit indique les images à rendre accessibles. Il faut ensuite vérifier leur présence avant l'entraînement.

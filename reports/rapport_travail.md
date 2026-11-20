@@ -1,6 +1,6 @@
 # Détection de métastases — document de travail du rapport
 
-**Statut : document de travail, non remise finale. Un pilote réel de 688 patchs et deux entraînements ont été exécutés. Le test final, la stabilité et le périmètre pN restent à traiter. Les résultats ci-dessous viennent du pilote réel, pas de la démonstration synthétique.**
+**Statut : document de travail, non remise finale. Le travail WSI du groupe est intégré et un fichier de 1 002 prédictions a été audité. Le test final, la stabilité et le périmètre pN restent à traiter. Les résultats WILDS et WSI utilisent des définitions de patch différentes et ne sont pas directement comparables.**
 
 ## Résumé
 
@@ -57,6 +57,14 @@ Les métriques incluent matrice de confusion, sensibilité, spécificité, préc
 Grad-CAM est calculé sur le dernier bloc convolutionnel pour la classe tumorale. Les exemples proviennent de catégories correctes et erronées selon une règle de sélection écrite. Leur interprétation nécessite une confrontation aux annotations ; une carte plausible ne prouve pas une causalité ni une validité histologique.
 
 ## 4. Expériences et résultats du pilote
+
+### 4.1 Résultat WSI transmis par le groupe
+
+Le CSV fourni contient 1 002 patchs de niveau 1 issus d'une seule lame, avec 501 patchs sains et 501 tumoraux. La ROC-AUC vaut 0,9683. Au seuil fixe 0,5, la matrice est VN=494, FP=7, FN=264, VP=237 : le rappel tumoral n'est que de 47,3 %, malgré une précision de 97,1 %. Un seuil de 0,1806 choisi sur cette validation atteint 95,4 % de rappel, avec 44 FP et 23 FN.
+
+L'observation principale est que le classement des scores est bon sur cet échantillon, mais que le seuil 0,5 est inadapté à un objectif de rappel élevé. La limite principale est plus importante que le score : une seule lame et des patchs voisins ne permettent pas d'estimer la généralisation. Le seuil optimisé ne doit pas être évalué sur ce même fichier comme s'il s'agissait d'un test.
+
+### 4.2 Pilote WILDS antérieur
 
 | Expérience prévue | Hypothèse | Données/validation | Résultat réel |
 | --- | --- | --- | --- |

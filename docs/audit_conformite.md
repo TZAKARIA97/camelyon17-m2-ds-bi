@@ -1,8 +1,8 @@
-# Audit critique du rendu — 6 novembre 2026
+# Audit critique du rendu — 20 novembre 2026
 
 ## Verdict
 
-**Le dépôt fournit maintenant un pipeline exécutable et un pilote réel interprété : 688 patchs, deux entraînements et une inspection WSI/XML. Il ne constitue pas encore le rendu scientifique final.**
+**Le dépôt réconcilie désormais deux travaux : le pilote WILDS initial et la chaîne WSI du groupe. Le code du groupe est exécutable et son CSV de validation est interprété, mais une seule lame ne constitue pas une validation scientifique finale.**
 
 Le sujet exige des expériences sur des données réelles, leur interprétation, un rapport de 15 pages maximum et une soutenance de 10 minutes. Des tests logiciels et une démonstration synthétique ne remplacent aucun de ces résultats.
 
@@ -11,9 +11,9 @@ Le sujet exige des expériences sur des données réelles, leur interprétation,
 | Exigence | Avant correction | Maintenant | Ce qui reste nécessaire |
 | --- | --- | --- | --- |
 | Compréhension du problème | Cadrage écrit | Cadrage et limites patch/lame/patiente précisés | Validation collective du périmètre et de l'attente pN |
-| Exploration et préparation | Tâches à réaliser | Pilote réel audité, cohortes documentées, figures et inspection d'une lame | Vérification élargie de la source et des conventions spatiales ; relecture du groupe |
-| CNN et méthode justifiée | Aucun code sur GitHub | Deux entraînements réels : AP validation 0,796 et 0,895 | Cohorte élargie, stabilité et décisions finales justifiées |
-| Évaluation et robustesse | Protocole uniquement | Validation réelle, figures et métriques par lame ; test sans prédictions | Test après gel du protocole et analyse des incertitudes |
+| Exploration et préparation | Tâches à réaliser | Pilote WILDS audité et extracteur WSI du groupe intégré | Contrôle visuel systématique, cohorte finale et définition du label harmonisée |
+| CNN et méthode justifiée | Aucun code sur GitHub | Fine-tuning WILDS ; sur WSI, ResNet18 sert d'extracteur puis logistique/forêt | Comparaison contrôlée sur plusieurs patients, centres et graines |
+| Évaluation et robustesse | Protocole uniquement | Audit de 1 002 prédictions WSI et résultats WILDS | Validation WSI multi-patient, puis test après gel du protocole |
 | Interprétabilité | Méthode prévue | Trois Grad-CAM réels inspectés et commentés ; carte nulle signalée | Confrontation à des masques correspondants et relecture humaine |
 | Niveau ganglion/patiente | Ambiguïté identifiée | Règles pN sur catégories connues, limites explicites | Données complètes et évaluation adaptée, ou périmètre alternatif confirmé |
 | Reproductibilité | Documentation seule | Dépendances, configurations, empreintes, tests et démonstration | Reproduction par un autre membre sur ses données et sa machine |
@@ -36,11 +36,13 @@ Le sujet exige des expériences sur des données réelles, leur interprétation,
 
 Les deux entraînements du pilote sont réels, mais la robustesse sur la cohorte finale, l'analyse clinique et la validation pN ne sont pas établies. Le modèle retenu manque 15 des 38 positifs de validation. Les scores du bruit artificiel ne remplacent aucun résultat manquant. La présence d'un script de règles pN ne démontre pas la détection et la mesure des lésions.
 
+Dans le résultat WSI fourni, la ROC-AUC de 0,9683 est encourageante pour le classement, mais elle provient d'une seule lame équilibrée artificiellement. Au seuil 0,5, 264 des 501 patchs tumoraux sont manqués. Le seuil 0,1806 atteint 95,4 % de rappel sur cette même validation ; il doit encore être vérifié sur un test indépendant.
+
 Les groupes patient du challenge sont artificiels : le contrôle des identifiants fournis ne démontre pas l'indépendance biologique de toutes les lames. Une seule source hospitalière dans le test ne permet pas d'en déduire une robustesse à tous les hôpitaux.
 
 ## Prochain jalon vérifiable
 
-Le jalon d'accès aux données et de pilote est réalisé : [accès reproductible](acces_donnees.md), [bilan du pilote](../reports/pilot_real/README.md), [inspection WSI](../reports/wsi_example/README.md). La prochaine étape est une reproduction par le groupe, puis une cohorte finale justifiée et un protocole figé avant le test. Le miroir est communautaire et son équivalence au bundle officiel reste non démontrée.
+Le prochain jalon est de reproduire l'extraction WSI avec l'index préparé localement, contrôler les prévisualisations, produire une validation contenant plusieurs patients et centres, puis figer la méthode avant le test. Voir le [guide WSI](pipeline_groupe.md) et l'[audit des prédictions](../reports/group_validation/README.md).
 
 La date limite, les ressources de calcul et la clarification pN doivent être confirmées en parallèle. Les scripts ne peuvent pas deviner ces informations.
 

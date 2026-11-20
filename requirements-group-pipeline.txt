@@ -1,0 +1,11 @@
+-r requirements-wsi.txt
+-r requirements-ml.txt
+
+# Dépendances spécifiques au pipeline WSI distant développé par le groupe.
+# PyTorch/torchvision doivent ensuite être installés ensemble : voir
+# requirements-cpu-tested.txt pour le CPU, ou pytorch.org pour CUDA.
+boto3>=1.35,<2
+s3fs>=2025.3,<2027
+tiffslide>=2.5,<3
+opencv-python-headless>=4.10,<5
+joblib>=1.4,<2

@@ -1,10 +1,10 @@
-# Validation technique — 6 novembre 2026
+# Validation technique — 20 novembre 2026
 
 ## Résultats vérifiés
 
 | Contrôle | Résultat | Portée |
 | --- | --- | --- |
-| Suite automatisée | **35 tests réussis, aucun ignoré** | Logique, HTTP Range borné, reprise sans écrasement, RGB/RGBA opaque, exclusion ID explicite, XML, calculs, configuration, provenance et pipeline tensoriel |
+| Suite automatisée après intégration | **37 tests découverts : 34 réussis, 3 ignorés** faute de torch/torchvision dans l'environnement d'intégration | Logique, HTTP Range borné, XML, calculs, configuration, provenance et résumé des prédictions ; les tests tensoriels avaient été validés dans l'environnement complet précédent |
 | Démonstration complète | **Terminée** sur 24 images de bruit | Audit → exploration → entraînement → évaluation → rapport → Grad-CAM |
 | Poids ImageNet | **Téléchargés et chargés** ; passe avant avec tête binaire réussie | Vérification des poids officiels, aucune performance médicale |
 | Fine-tuning et perte pondérée | **Exécutés** pendant une époque synthétique | Vérification du second mode, pas comparaison scientifique |
@@ -16,6 +16,8 @@
 | Paire WSI/XML | **Deux MD5 conformes** à la distribution officielle | Une lame, trois régions avec masques et superpositions |
 | Comparaison réelle | **Deux modèles, trois époques chacun** | 416 patchs train ; 128 de validation ; AP 0,796 et 0,895 |
 | Interprétation réelle | Matrice, ROC/PR et **3 Grad-CAM inspectés** | Un TP, un TN à carte nulle et un FN ; aucun FP disponible pour le modèle retenu |
+| Prédictions WSI du groupe | **1 002 lignes recalculées**, ROC-AUC 0,9683 | Une seule lame de validation ; 501 patchs par classe ; ce n'est pas un test indépendant |
+| Code WSI du groupe | Compilation réussie et contrôles unitaires du résumé réussis | L'extraction distante complète et l'entraînement n'ont pas été relancés dans cet environnement |
 
 La suite inclut les fuites de patientes/lames, les centres OOD, les doublons et alias de chemins, les métadonnées manquantes, les masques XML, les métriques non définies, les règles pN sur catégories connues, la sélection de groupes, les paramètres invalides et la détection de manifeste/prédictions modifiés.
 
@@ -39,7 +41,7 @@ L’environnement de vérification refuse l’ouverture de sockets par le noyau 
 
 Ce contrôle valide le code des cellules. Il ne remplace pas un essai de l’interface Jupyter/VS Code et du noyau choisi sur le poste du groupe. Les scripts en ligne de commande ne dépendent pas du noyau Jupyter et ont fonctionné de bout en bout.
 
-## Environnement vérifié
+## Environnement complet vérifié précédemment
 
 Python 3.12 ; NumPy 2.3.5 ; pandas 2.2.3 ; Pillow 13.0.0 ; scikit-learn 1.8.0 ; torch 2.15.0+cpu ; torchvision 0.29.2+cpu ; matplotlib 3.10.8. Outils de notebooks installés : nbformat 5.11.1, nbclient 0.11.0, ipykernel 7.4.0.
 

@@ -30,7 +30,11 @@ data/processed/
 data/external/
 data/patches/
 data/wilds/
+data/CAMELYON17/
+data/resultats/
 datasets/
+patches/
+resultats/
 .cache/
 *.zip
 *.tar
@@ -50,6 +54,7 @@ datasets/
 *.pth
 *.ckpt
 *.onnx
+*.joblib
 runs/
 wandb/
 mlruns/
