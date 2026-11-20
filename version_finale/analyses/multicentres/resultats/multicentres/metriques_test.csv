@@ -1,0 +1,2 @@
+methode,centre,seuil,replis,regression_prediction_s,n,VP,VN,FP,FN,rappel,precision,specificite,auc
+original,2,0.31390092,0,0.01569590001599863,864,172,589,11,92,0.6515151515151515,0.9398907103825137,0.9816666666666667,0.8715467171717171

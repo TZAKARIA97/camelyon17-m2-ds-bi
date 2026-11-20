@@ -1,0 +1,10 @@
+# Dépendances fonctionnelles non verrouillées ; versions historiques dans les JSON des résultats.
+-r requirements-lecture.txt
+pillow
+joblib
+torch
+torchvision
+torchstain
+boto3
+openslide-python
+openslide-bin

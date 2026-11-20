@@ -1,0 +1,12 @@
+{
+  "version": "multicentres_v2_masque_valide",
+  "seed": 42,
+  "niveau": 1,
+  "taille": 224,
+  "centre": 112,
+  "tissu_min": 0.25,
+  "saturation_min": 0.04,
+  "positifs_par_lame": 200,
+  "negatifs_lame_positive": 100,
+  "negatifs_lame_negative": 200
+}

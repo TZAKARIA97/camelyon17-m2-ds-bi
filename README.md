@@ -2,7 +2,7 @@
 
 Détection de tissu tumoral sur des patchs histopathologiques, analyse des erreurs et généralisation entre centres hospitaliers. Travail pédagogique en équipe de cinq.
 
-**État : le travail du groupe est maintenant intégré sous la forme d'un pipeline WSI distant → patchs 224 × 224 → caractéristiques ResNet18 → classifieur classique. Un CSV de 1 002 prédictions a été audité. Le pilote WILDS initial reste disponible comme référence comparative. Aucun test final multi-patient ni résultat pN n'est encore démontré.** Lire le [pipeline du groupe](docs/pipeline_groupe.md), le [bilan chiffré fourni](reports/group_validation/README.md) et l'[audit de conformité](docs/audit_conformite.md).
+**État : la dernière version collective est intégrée dans `version_finale/`. Le protocole retenu couvre 112 µm par patch, lit au niveau 2, redimensionne en 224 × 224 pixels, utilise ResNet18 comme extracteur de 512 caractéristiques puis une régression logistique. Le niveau 2 obtient une ROC-AUC de validation de 0,9738 contre 0,9682 au niveau 1. L'expérience multicentre publiée est vérifiable depuis les CSV ; les cartes de chaleur, la classe des lames et le stade pN sont implémentés, mais leurs cellules finales ne disposent pas encore de résultats exécutés dans l'archive collective.** Lire le [bilan d'alignement](docs/alignement_version_groupe.md), le [guide de la version finale](version_finale/README.md) et l'[audit de conformité](docs/audit_conformite.md).
 
 ## Démarrer en cinq minutes, hors installation
 
@@ -31,19 +31,19 @@ Les tests tensoriels sont ignorés si torch/torchvision ne sont pas installés :
 
 ## Exécuter la direction actuelle du groupe
 
-Le pipeline courant travaille directement depuis les lames originales sans télécharger toute la collection. Utiliser un environnement séparé :
+La version collective travaille directement depuis les lames originales sans télécharger toute la collection. Utiliser un environnement séparé :
 
 ```bash
 python -m venv .venv-group
 source .venv-group/bin/activate
-python -m pip install -r requirements-group-pipeline.txt
-python -m pip install -r requirements-cpu-tested.txt
-python -m src.group_pipeline.camelyon_data remote-index
-python -m src.group_pipeline.extract_patches --index data/CAMELYON17/index.csv --max-slides 2 --patch-level 1
-python -m src.group_pipeline.analyze --patch-level 1 --modele logistique --rappel 0.95
+python -m pip install -r version_finale/requirements.txt
+cd version_finale
+python camelyon_data.py remote-index
+python extract_patches.py --variante base centre niveaux
+python extract_patches.py --variante retenue
 ```
 
-Commencer impérativement par le pilote borné et contrôler les prévisualisations. Le [guide du pipeline WSI](docs/pipeline_groupe.md) explique les commandes, les hypothèses et les limites. ASAP reste un outil de contrôle visuel facultatif, isolé du pipeline Python.
+Commencer impérativement par un pilote borné et contrôler les prévisualisations. La variante `retenue` fixe l'étiquetage central et le niveau 2 tout en conservant une surface physique de 112 µm. Le [guide de la version finale](version_finale/README.md) explique l'ordre complet. ASAP reste un outil de contrôle visuel facultatif, isolé du pipeline Python.
 
 ## Conserver le pilote WILDS comme référence
 
@@ -69,7 +69,8 @@ Le dépôt conserve également la chaîne WILDS déjà exécutée. Elle utilise 
 | Vérifier ce qui répond au sujet | [Audit de conformité](docs/audit_conformite.md) |
 | Comprendre le besoin et les décisions | [Cadrage](docs/01_cadrage.md), [roadmap](docs/00_roadmap_et_livrables.md) |
 | Exécuter et expliquer chaque étape | [Guide](docs/02_demarrage.md), `notebooks/` |
-| Exécuter le travail actuel du groupe | [Pipeline WSI du groupe](docs/pipeline_groupe.md), `src/group_pipeline/` |
+| Exécuter le travail actuel du groupe | [Version finale du groupe](version_finale/README.md), `version_finale/` |
+| Vérifier l'alignement et les résultats disponibles | [Bilan d'alignement](docs/alignement_version_groupe.md), `version_finale/resultats_publics/` |
 | Lire les résultats fournis | [Audit des 1 002 prédictions](reports/group_validation/README.md) |
 | Contrôler les données | `src/data/`, [dictionnaire](data/README.md) |
 | Entraîner et comparer | `src/models/`, `configs/baseline.json`, `configs/fine_tune.json` |

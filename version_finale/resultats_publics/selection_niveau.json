@@ -1,0 +1,25 @@
+{
+  "source": "notebooks/02_modelisation_evaluation.ipynb",
+  "date_decision": "2026-11-20",
+  "surface_patch_um": 112,
+  "taille_entree_px": 224,
+  "etiquetage_retenu": "centre",
+  "niveau_retenu": 2,
+  "comparaison_validation": [
+    {
+      "variante": "base",
+      "niveau": 1,
+      "roc_auc_validation": 0.9682,
+      "C_retenu": 0.001,
+      "roc_auc_validation_croisee": 0.9403
+    },
+    {
+      "variante": "niveaux",
+      "niveau": 2,
+      "roc_auc_validation": 0.9738,
+      "C_retenu": 0.01,
+      "roc_auc_validation_croisee": 0.9506
+    }
+  ],
+  "justification": "Le niveau 2 est légèrement meilleur sur validation et réduit d'un facteur quatre le volume lu, à surface physique constante."
+}

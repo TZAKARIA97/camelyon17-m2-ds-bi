@@ -1,0 +1,17 @@
+{
+  "methode": "original",
+  "C": 0.001,
+  "seuil": 0.31390092,
+  "rappel_min": 0.95,
+  "specificite_moyenne": 0.8966666666666667,
+  "auc_moyenne": 0.9751666666666665,
+  "FP": 62,
+  "FN": 17,
+  "replis": 0,
+  "normalisation_s": 0.008555799344321713,
+  "cnn_s": 78.21748569997726,
+  "temps_mesure_s": 78.22604149932158,
+  "configuration": "a4c78b79f773",
+  "hash_reference": "780f7e5c24b5b8d9e2504d01960d8e9c60f8ddd0d148ee31308a71b73cfdcfb9",
+  "hash_modele": "375bf339a4ccb7e9cdf8955086dd9e075510ce9b36e4851d7d0ead788a0fb62e"
+}
