@@ -1,60 +1,72 @@
-# Trame de soutenance finale — 15 minutes
+# Trame de soutenance finale — 12 diapositives, 15 minutes maximum
 
-Cette trame accompagne les **12 diapositives** du support final. La priorité est le raisonnement scientifique : problème, choix méthodologiques, expériences, résultats, limites et conclusion.
+La soutenance principale contient 12 diapositives. Les trois annexes restent après la conclusion et ne sont utilisées que pour répondre aux questions.
+
+## Chronométrage cible
 
 | Temps | Diapositive | Sujet | Message attendu |
 |---|---:|---|---|
-| 0:00–0:30 | 1 | Introduction | Sujet, équipe et trois axes de travail |
-| 0:30–2:00 | 2 | Problématique | Du WSI au patient ; formuler la question inter-centres |
-| 2:00–3:10 | 3 | Données | Cinq centres, WSI/XML et séparation par patient |
-| 3:10–4:30 | 4 | Extraction | 112 µm, niveau 2, tissu et zone centrale |
-| 4:30–5:50 | 5 | Modèle | ResNet18 gelé, 512 caractéristiques et logistique |
-| 5:50–7:00 | 6 | Protocole | Trois expériences et gel du seuil avant le test |
-| 7:00–8:00 | 7 | Niveau | Interpréter le gain du niveau 2 sans le surévaluer |
-| 8:00–9:00 | 8 | Multicentres | Expliquer la règle qui conserve les images originales |
-| 9:00–11:00 | 9 | Test centre 2 | Lire la matrice et insister sur les 92 faux négatifs |
-| 11:00–12:00 | 10 | Erreurs | Domain shift, micrométastases et limite de Grad-CAM |
-| 12:00–13:00 | 11 | Lame et pN | Séparer ce qui est codé de ce qui est validé |
-| 13:00–14:15 | 12 | Conclusion | Bilan concret, réponse scientifique et perspectives |
-| 14:15–15:00 | — | Marge | Transitions, retard et respiration avant les questions |
+| 0:00–0:30 | 1 | Introduction | Sujet, équipe et portée du projet |
+| 0:30–2:30 | 2 | Problématique | Du WSI au patient et question de généralisation |
+| 2:30–3:50 | 3 | Volumes | 85 lames sélectionnées, 45 utilisées pour le développement, 13 367 patchs |
+| 3:50–5:00 | 4 | Extraction | 112 µm, niveau 2, tissu et zone centrale |
+| 5:00–6:10 | 5 | Modèle | ResNet18 gelé, 512 caractéristiques, logistique et 40 tests |
+| 6:10–7:10 | 6 | Protocoles | Séparer le pipeline final de l’étude multicentre exploratoire |
+| 7:10–8:00 | 7 | Niveau | Interpréter le gain du niveau 2 |
+| 8:00–9:00 | 8 | Normalisation | Expliquer la règle qui conserve les images originales |
+| 9:00–10:45 | 9 | Centre 2 | Lire la matrice, le seuil 0,3139 et les 92 faux négatifs |
+| 10:45–11:45 | 10 | Hypothèses | Domain shift, petites lésions et seuil hors domaine |
+| 11:45–12:45 | 11 | Lame et pN | Séparer ce qui est codé de ce qui est validé |
+| 12:45–14:00 | 12 | Conclusion | Bilan concret, limite scientifique et perspectives |
+| 14:00–15:00 | — | Marge | Transitions, retard éventuel et respiration |
 
 ## Répartition entre cinq personnes
 
 | Personne | Diapositives | Durée cible | Responsabilité |
 |---|---:|---:|---|
-| 1 | 1–2 | 2 min | Cadrage et problématique |
-| 2 | 3–4 | 2 min 30 | Données et extraction |
-| 3 | 5–6 | 2 min 30 | Modèle et protocole |
-| 4 | 7–9 | 4 min | Résultats expérimentaux |
-| 5 | 10–12 | 3 min 15 | Analyse critique et conclusion |
+| 1 | 1–2 | 2 min 30 | Cadrage et problématique |
+| 2 | 3–4 | 2 min 30 | Volumes, séparation et extraction |
+| 3 | 5–7 | 3 min | Architecture, protocoles et choix du niveau 2 |
+| 4 | 8–9 | 2 min 45 | Normalisation et test du centre non vu |
+| 5 | 10–12 | 3 min 15 | Analyse critique, portée lame/pN et conclusion |
 
-Chaque membre doit néanmoins pouvoir expliquer le pipeline complet et répondre sur les limites.
+Chaque membre présente un bloc cohérent et doit pouvoir expliquer le pipeline complet.
+
+## Annexes de secours
+
+- **A1 — Volumes exacts :** distingue les 85 lames du pipeline final des 14 lames de l’étude multicentre.
+- **A2 — Paramètres et contrôles :** 112 µm, 224 × 224, zone centrale, quotas, 512 caractéristiques et 40 tests.
+- **A3 — Suite expérimentale :** analyse des faux négatifs, recalibrage, adaptation de domaine et validation lame/pN.
+
+Les annexes ne font pas partie du chronométrage. Ne pas les afficher spontanément.
 
 ## Messages à ne pas rater
 
-- Le découpage est réalisé par **patient**, pas aléatoirement par patch.
-- Le champ de **112 µm** fixe la même surface anatomique malgré les différences de scanner.
-- ResNet18 est utilisé comme **extracteur gelé** ; la régression logistique fournit une frontière contrôlable.
-- Le niveau 2 est retenu avec une ROC-AUC de validation de **0,9738**.
-- Les images originales sont conservées dans l’expérience multicentre historique.
-- Sur le centre 2, la spécificité est élevée (**98,2 %**) mais le rappel chute à **65,2 %**.
+- Le pipeline final utilise réellement 35 lames d’entraînement et 10 de validation au niveau 2, soit 13 367 patchs.
+- Les 40 lames du test lame/pN sont sélectionnées mais les sorties finales ne sont pas exécutées.
+- L’étude multicentre est un protocole exploratoire distinct : 14 lames, 14 patientes et 3 189 patchs au niveau 1.
+- Les scores des deux protocoles ne doivent jamais être fusionnés.
+- Le niveau 2 atteint 0,9738 de ROC-AUC en validation.
+- Les images originales obtiennent 0,8967 de spécificité moyenne dans l’étude multicentre.
+- Sur le centre 2, le seuil est 0,3139 et le rappel chute à 65,2 %.
+- Les hypothèses sur les faux négatifs ne constituent pas des causalités démontrées.
 - Les règles lame/pN sont codées, mais aucune métrique lame ni aucun kappa pN n’est revendiqué.
 
-## Questions probables de l’enseignante
+## Questions probables
 
-- **Pourquoi une séparation par patient ?** Des patchs d’une même lame partagent texture, coloration et artefacts ; les séparer entre apprentissage et validation créerait une fuite.
-- **Pourquoi geler ResNet18 ?** Pour limiter le coût et le surapprentissage. La contrepartie est une représentation ImageNet non spécialisée à l’histologie.
-- **Pourquoi retenir le niveau 2 ?** Il obtient 0,9738 contre 0,9682 au niveau 1, avec un coût de lecture inférieur à champ physique constant.
-- **Pourquoi les images originales ?** La règle fixée privilégie la spécificité sous contrainte de rappel ; elles obtiennent 0,8967 de spécificité moyenne.
-- **Que montre réellement le test final ?** 589 VN, 11 FP, 92 FN et 172 VP sur 864 patchs : faible taux de fausses alertes, mais sensibilité insuffisante hors centre.
-- **Avez-vous validé le stade pN ?** Non. La chaîne est implémentée, mais les sorties finales ne sont pas exécutées dans l’archive collective.
+- **Pourquoi une séparation par patiente ?** Pour empêcher qu’une même lame ou une même patiente influence à la fois l’apprentissage et l’évaluation.
+- **Pourquoi 112 µm ?** Pour conserver le même champ anatomique malgré les différences de scanner et de résolution.
+- **Pourquoi geler ResNet18 ?** Pour limiter le coût et le surapprentissage. La représentation reste toutefois issue d’ImageNet.
+- **Pourquoi le niveau 2 ?** Il obtient 0,9738 contre 0,9682 au niveau 1, avec un coût de lecture inférieur.
+- **Pourquoi les images originales ?** Elles donnent la meilleure spécificité moyenne sous la règle de rappel définie.
+- **Que montre le test final ?** 589 VN, 11 FP, 92 FN et 172 VP sur 864 patchs. La spécificité reste forte, mais le rappel devient insuffisant.
+- **Avez-vous validé le stade pN ?** Non. La chaîne existe dans le code, mais l’évaluation finale n’est pas exécutée.
 - **Que prouve Grad-CAM ?** Une localisation qualitative des régions contributives, pas une causalité ni une validation clinique.
-- **Pourquoi ne pas fusionner tous les scores ?** L’expérience multicentre historique est au niveau 1, tandis que la sélection finale du niveau de lecture concerne le pipeline niveau 2.
 
 ## Discipline orale
 
-1. Lire la matrice de confusion avant de commenter les scores.
-2. Distinguer systématiquement « codé », « exécuté » et « validé ».
-3. Ne pas présenter la ROC-AUC de validation comme une preuve de généralisation.
-4. Ne pas masquer l’absence de métriques lame et pN.
-5. Terminer par la conclusion scientifique, pas par une liste de livrables.
+1. Ne pas lire les slides.
+2. Donner les volumes avant les pourcentages.
+3. Lire la matrice de confusion avant les métriques.
+4. Distinguer « sélectionné », « exécuté », « codé » et « validé ».
+5. Terminer par la conclusion scientifique, puis s’arrêter.
