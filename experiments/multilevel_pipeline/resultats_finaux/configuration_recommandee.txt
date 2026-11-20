@@ -1,0 +1,4 @@
+niveau=2
+modele=logistique
+AUC_validation=0.9837
+seuil=0.392421

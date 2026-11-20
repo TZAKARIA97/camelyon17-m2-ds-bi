@@ -1,0 +1,3 @@
+set,seuil,AUC,VP,FN,FP,VN,exactitude,rappel,precision
+validation,0.183,0.9737,191,10,82,434,0.872,0.95,0.7
+test,0.183,0.904,117,32,73,352,0.817,0.785,0.616
