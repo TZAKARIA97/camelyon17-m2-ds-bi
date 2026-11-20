@@ -1,16 +1,238 @@
-<!doctype html><html lang="fr"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>CAMELYON17 — Soutenance M2</title>
-<style>
-:root{--n:#102a43;--n2:#17324d;--t:#1f7a8c;--c:#8fb8c7;--p:#f5f7f9;--i:#17212b;--m:#5c6975;--r:#b53a42;--g:#c98b19;--ok:#27865f;--grid:#d7e0e6}*{box-sizing:border-box}body{margin:0;background:#061725;color:#fff;font-family:Inter,Segoe UI,Arial,sans-serif;overflow:hidden}.deck{height:100vh}.slide{display:none;position:absolute;inset:0;padding:5vh 6vw 9vh;background:linear-gradient(135deg,var(--n),#081d2e);overflow:auto}.slide.active{display:grid;align-content:center}.light{background:var(--p);color:var(--i)}h1{font-size:clamp(2.7rem,5.3vw,6rem);line-height:1;margin:0 0 3vh;letter-spacing:-.04em}h2{font-size:clamp(2rem,3.4vw,4rem);line-height:1.06;margin:0 0 3vh;letter-spacing:-.03em}h3{font-size:clamp(1.15rem,1.7vw,1.8rem);color:var(--t)}p,li,td,th{font-size:clamp(1rem,1.3vw,1.32rem);line-height:1.4}.lead{font-size:clamp(1.3rem,2vw,2.1rem);color:#d6e2ea}.light .lead{color:#354554}.eye{font-size:.85rem;letter-spacing:.16em;text-transform:uppercase;color:#78cfda;font-weight:800;margin-bottom:1rem}.light .eye{color:var(--t)}.grid2{display:grid;grid-template-columns:1fr 1fr;gap:4vw;align-items:center}.grid3{display:grid;grid-template-columns:repeat(3,1fr);gap:1.2rem}.flow,.actions{display:grid;grid-template-columns:repeat(5,1fr);gap:1rem}.actions{grid-template-columns:repeat(4,1fr)}.node,.act{padding:1.2rem;background:var(--t);color:#fff;min-height:105px}.node.alt,.act{background:var(--n2)}.node strong{display:block;margin-bottom:.7rem}.metric{font-size:clamp(2.8rem,5.5vw,5.8rem);font-weight:850;line-height:1;color:var(--t);letter-spacing:-.04em}.red{color:var(--r)}.table{width:100%;border-collapse:collapse}.table th{background:var(--n2);color:#fff;text-align:left}.table th,.table td{padding:.72rem;border-bottom:1px solid var(--grid)}.warning{border-left:7px solid var(--g);padding:1rem 1.3rem;background:#fff4d8;color:#382b12}.bars{display:grid;gap:1.2rem}.bar{display:grid;grid-template-columns:125px 1fr 90px;gap:1rem;align-items:center;font-weight:750}.track{height:28px;background:#dce6eb}.fill{height:100%;background:var(--t)}.fill.n{background:var(--n2)}.matrix{display:grid;grid-template-columns:130px repeat(2,170px);grid-template-rows:50px repeat(2,145px);gap:5px;justify-content:center}.matrix div{display:grid;place-items:center}.cell{font-size:2.2rem;font-weight:850;background:#dce9f3;color:var(--n)}.strong{background:#173f77;color:#fff}.axis{font-weight:750}.act:first-child{background:var(--t)}.act span{color:#78cfda;font-size:1.5rem;margin-right:.5rem}.source{font-size:.78rem;color:#8fa6b4;margin-top:2vh}.light .source{color:var(--m)}.footer{position:absolute;left:6vw;right:6vw;bottom:2.3vh;display:flex;justify-content:space-between;color:#8fa6b4;font-size:.78rem;border-top:3px solid var(--t);padding-top:.6rem}.light .footer{color:#6b7780;border-color:var(--c)}.controls{position:fixed;z-index:20;right:2vw;bottom:2vh;display:flex;gap:.5rem}.controls button{border:1px solid #8fa6b4;background:var(--n);color:#fff;width:42px;height:42px;border-radius:50%;font-size:1.2rem}.progress{position:fixed;bottom:0;left:0;height:5px;background:#49b7c4}.ok{color:var(--ok);font-weight:800}.coded{color:var(--t);font-weight:800}@media(max-width:850px){.grid2,.grid3{grid-template-columns:1fr}.flow,.actions{grid-template-columns:1fr 1fr}.slide{padding:4vh 5vw 12vh}.matrix{grid-template-columns:85px repeat(2,1fr);grid-template-rows:40px repeat(2,100px)}}@media print{body{overflow:visible}.deck{height:auto}.slide{display:grid!important;position:relative;height:100vh;page-break-after:always}.controls,.progress{display:none}}
-</style></head><body><main class="deck">
-<section class="slide active"><div><div class="eye">CAMELYON17 · Histopathologie numérique</div><h1>Détection de métastases dans les ganglions lymphatiques</h1><p class="lead">Sélection multi-échelle, robustesse inter-centres et limites de l’agrégation au stade pN</p><p>Zaki, Élodie, Joël, Mélanie et Paul · Encadrement : Ines Krissaane · 20 novembre 2026</p><p class="source">Résultats issus de la dernière archive collective alignée. Travail pédagogique sans usage clinique.</p></div><div class="footer"><span>M2 Data Science & BI · Projet 1</span><span>01 / 11</span></div></section>
-<section class="slide light"><div><div class="eye">1. Cadrage</div><h2>Une question de généralisation, pas seulement de classification</h2><div class="grid2"><div><h3>Question de recherche</h3><p style="font-size:clamp(1.45rem,2.3vw,2.5rem);font-weight:750">Une représentation ResNet18 préentraînée conserve-t-elle sa sensibilité sur des lames provenant d’un centre hospitalier non vu ?</p></div><div><div class="node"><strong>PATCH</strong>Probabilité tumorale</div><div class="node alt" style="margin-top:1rem"><strong>LAME</strong>Négative, ITC, micro ou macro</div><div class="node" style="margin-top:1rem;background:var(--c)"><strong>PATIENTE</strong>Stade pN à partir de cinq ganglions</div></div></div><p class="source">Ne pas confondre performance patch, lame et patient.</p></div><div class="footer"><span>Problématique et contribution</span><span>02 / 11</span></div></section>
-<section class="slide"><div><div class="eye">2. Données</div><h2>Séparation par patiente et test inter-centres fermé</h2><div class="grid2"><div><div class="metric">CAMELYON17</div><p class="lead">Lames histopathologiques de ganglions issues de plusieurs centres</p><ul><li>Aucune patiente dans plusieurs ensembles</li><li>Centres 0 et 4 pour la validation multicentre</li><li>Centre 2 réservé au test final</li></ul></div><div class="grid3"><div class="node"><strong>ENTRAÎNEMENT</strong>Ajustement du classifieur</div><div class="node"><strong>VALIDATION</strong>Choix du niveau, de C et du seuil</div><div class="node" style="background:var(--g)"><strong>TEST CENTRE 2</strong>Ouverture après gel des réglages</div></div></div><p class="source">La séparation par patiente limite les fuites d’information.</p></div><div class="footer"><span>Données et protocole</span><span>03 / 11</span></div></section>
-<section class="slide light"><div><div class="eye">3. Prétraitement</div><h2>Comparer les niveaux à champ physique constant</h2><div class="grid2"><div><div class="metric">112 µm × 112 µm</div><p class="lead">Le nombre de pixels lus dépend du MPP et du niveau. Chaque région est redimensionnée en 224 × 224 pixels.</p><div class="warning">Cette règle évite de comparer des zones anatomiques différentes.</div></div><table class="table"><tr><th>Paramètre</th><th>Valeur</th></tr><tr><td>Niveau retenu</td><td>2</td></tr><tr><td>Entrée réseau</td><td>224 × 224 px</td></tr><tr><td>Zone centrale</td><td>56 µm</td></tr><tr><td>Tissu minimal</td><td>50 %</td></tr><tr><td>Quota par lame</td><td>250 + 250</td></tr></table></div><p class="source">Source : version_finale/parametres_decoupage.py.</p></div><div class="footer"><span>Prétraitement et extraction</span><span>04 / 11</span></div></section>
-<section class="slide"><div><div class="eye">4. Modèle</div><h2>Transfert d’apprentissage avec extracteur gelé</h2><div class="flow"><div class="node"><strong>PATCH</strong>224 × 224</div><div class="node" style="background:var(--c)"><strong>RESNET18</strong>ImageNet gelé</div><div class="node"><strong>EMBEDDING</strong>512 caractéristiques</div><div class="node alt"><strong>CLASSIFIEUR</strong>Régression logistique</div><div class="node"><strong>SORTIE</strong>Probabilité tumorale</div></div><div class="grid2" style="margin-top:4vh"><div><h3>Avantage</h3><p>Coût réduit et classifieur interprétable.</p></div><div><h3 style="color:#f2b94b">Limite</h3><p>Représentation non spécialisée à l’histologie.</p></div></div><p class="source">Sélection de C sur validation uniquement.</p></div><div class="footer"><span>Modèle de patch</span><span>05 / 11</span></div></section>
-<section class="slide light"><div><div class="eye">5. Sélection du niveau</div><h2>Le niveau 2 est légèrement meilleur sur validation</h2><div class="grid2"><div><div class="metric">Δ = +0,0056</div><ul><li>ROC-AUC validation : 0,9738</li><li>ROC-AUC CV : 0,9506</li><li>C retenu : 0,010</li><li>Volume lu divisé par quatre</li></ul><div class="warning">Résultat local, pas preuve d’une supériorité générale.</div></div><div class="bars"><div class="bar"><span>Niveau 1</span><div class="track"><div class="fill" style="width:96.82%"></div></div><span>0,9682</span></div><div class="bar"><span>Niveau 2</span><div class="track"><div class="fill n" style="width:97.38%"></div></div><span>0,9738</span></div></div></div><p class="source">Source : selection_niveau.json.</p></div><div class="footer"><span>Sélection multi-échelle</span><span>06 / 11</span></div></section>
-<section class="slide"><div><div class="eye">6. Robustesse</div><h2>Protocole multicentre avant le test</h2><div class="grid3"><div class="node"><strong>ORIGINAL</strong>Aucune normalisation</div><div class="node alt"><strong>REINHARD</strong>Transfert colorimétrique</div><div class="node alt"><strong>MACENKO</strong>Décomposition des colorants</div></div><h3 style="color:#78cfda;margin-top:4vh">Règle de décision</h3><ul><li>Rappel ≥ 0,95 dans chacun des centres 0 et 4</li><li>Maximiser ensuite la spécificité moyenne</li><li>Comparer la ROC-AUC moyenne en cas d’égalité</li><li>Figer méthode et seuil avant le centre 2</li></ul><p class="source">Seuil original retenu : 0,31390092.</p></div><div class="footer"><span>Protocole multicentre</span><span>07 / 11</span></div></section>
-<section class="slide light"><div><div class="eye">7. Validation</div><h2>La normalisation de coloration n’améliore pas le compromis retenu</h2><div class="grid2"><div><p>Méthode retenue</p><div class="metric" style="font-size:clamp(2rem,3.7vw,4rem)">Images originales</div><p>Spécificité : <strong>0,8967</strong><br>ROC-AUC : <strong>0,9752</strong><br>Rappel C0 : <strong>0,9650</strong><br>Rappel C4 : <strong>0,9500</strong></p><p><strong>La meilleure AUC seule ne décide pas.</strong></p></div><div class="bars"><div class="bar"><span>Original</span><div class="track"><div class="fill" style="width:89.67%"></div></div><span>0,8967</span></div><div class="bar"><span>Reinhard</span><div class="track"><div class="fill" style="width:87.5%"></div></div><span>0,8750</span></div><div class="bar"><span>Macenko</span><div class="track"><div class="fill" style="width:82.17%"></div></div><span>0,8217</span></div><p>AUC : 0,9752 · 0,9767 · 0,9743</p></div></div><p class="source">Source : résultats multicentres recalibrés.</p></div><div class="footer"><span>Validation multicentre</span><span>08 / 11</span></div></section>
-<section class="slide"><div><div class="eye">8. Test final</div><h2>Le centre non vu révèle une perte de sensibilité</h2><div class="grid2"><div><div class="metric red">0,6515</div><p class="lead"><strong>Rappel sur 864 patches</strong></p><p>ROC-AUC : 0,8715<br>Précision : 0,9399<br>Spécificité : 0,9817<br>Exactitude : 0,8808</p></div><div class="matrix"><div></div><div class="axis">Prédit sain</div><div class="axis">Prédit tumoral</div><div class="axis">Réel sain</div><div class="cell strong">589</div><div class="cell">11</div><div class="axis">Réel tumoral</div><div class="cell">92</div><div class="cell" style="background:var(--c)">172</div></div></div><div class="warning">92 faux négatifs contre 11 faux positifs : modèle spécifique, mais insuffisamment sensible.</div><p class="source">Centre 2, seuil figé 0,31390092.</p></div><div class="footer"><span>Test inter-centres</span><span>09 / 11</span></div></section>
-<section class="slide light"><div><div class="eye">9. Analyse critique</div><h2>Le pipeline complet reste partiellement évalué</h2><table class="table"><tr><th>Élément</th><th>État</th><th>Résultat</th></tr><tr><td>Carte de chaleur</td><td class="coded">Codée</td><td>Final absent</td></tr><tr><td>Classe de lame</td><td class="coded">Codée</td><td>Matrice absente</td></tr><tr><td>Agrégation pN</td><td class="coded">Codée</td><td>Kappa et matrice absents</td></tr><tr><td>Contrôles logiciels</td><td class="ok">40 tests</td><td>Tous passants</td></tr></table><div class="warning" style="margin-top:3vh;text-align:center"><strong>Aucune performance lame ou patient n’est revendiquée. Le résultat démontré concerne le niveau patch.</strong></div><p class="source">Données pseudonymisées détaillées hors dépôt public.</p></div><div class="footer"><span>Portée et limites</span><span>10 / 11</span></div></section>
-<section class="slide"><div><div class="eye">10. Conclusion</div><h2>Une bonne discrimination patch ne garantit pas la robustesse inter-centres</h2><p class="lead"><strong>Niveau 2 : ROC-AUC validation 0,9738. Centre 2 : ROC-AUC 0,8715, rappel 0,6515.</strong></p><div class="actions"><div class="act"><span>1</span>Contrôler les cartes</div><div class="act"><span>2</span>Évaluer les lames</div><div class="act"><span>3</span>Calculer pN et le kappa</div><div class="act"><span>4</span>Améliorer le rappel</div></div><p style="text-align:center;color:#78cfda;font-weight:800;font-size:1.4rem;margin-top:4vh">Les résultats justifient la poursuite du protocole, pas une validation clinique.</p><p class="source">Priorité : analyser les faux négatifs par centre et taille de lésion.</p></div><div class="footer"><span>Conclusion et perspectives</span><span>11 / 11</span></div></section>
-</main><div class="controls"><button id="prev">←</button><button id="next">→</button></div><div class="progress" id="progress"></div><script>const s=[...document.querySelectorAll('.slide')];let i=0;function show(n){i=(n+s.length)%s.length;s.forEach((x,k)=>x.classList.toggle('active',k===i));progress.style.width=((i+1)/s.length*100)+'%'}next.onclick=()=>show(i+1);prev.onclick=()=>show(i-1);addEventListener('keydown',e=>{if(['ArrowRight','PageDown',' '].includes(e.key))show(i+1);if(['ArrowLeft','PageUp'].includes(e.key))show(i-1);if(e.key==='Home')show(0);if(e.key==='End')show(s.length-1)});show(0)</script></body></html>
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>CAMELYON17 — Soutenance M2 Data Science & BI</title>
+  <style>
+    :root{--bg:#f6f3ec;--navy:#102a43;--ink:#243b53;--muted:#627d98;--teal:#0f766e;--cyan:#d9f1ee;--coral:#c84b31;--rose:#f8e1da;--amber:#b7791f;--sand:#e8e1d4;--white:#fff}
+    *{box-sizing:border-box} html,body{height:100%;margin:0;background:#0b1f33;font-family:Inter,ui-sans-serif,system-ui,-apple-system,"Segoe UI",sans-serif;color:var(--ink);overflow:hidden}
+    .deck{height:100%;display:grid;place-items:center}.slide{display:none;position:relative;width:min(100vw,177.78vh);height:min(56.25vw,100vh);aspect-ratio:16/9;background:var(--bg);padding:4.5% 5.6% 4%;overflow:hidden}
+    .slide.active{display:block}.slide.dark{background:var(--navy);color:white}
+    h1,h2,h3,p{margin:0}.kicker{font-size:1.05vw;letter-spacing:.08em;text-transform:uppercase;color:var(--teal);font-weight:800}.dark .kicker{color:#65d6c8}
+    h1{font-size:3.35vw;line-height:1.14;letter-spacing:-.035em}.title{font-size:2.25vw;line-height:1.12;color:var(--navy);letter-spacing:-.025em;border-bottom:2px solid var(--sand);padding-bottom:1.15%;margin-top:.55%}
+    .dark .title{color:white;border-color:#486581}.lead{font-size:1.55vw;line-height:1.35}.body{font-size:1.18vw;line-height:1.42}.small{font-size:.92vw;line-height:1.35}.muted{color:var(--muted)}.teal{color:var(--teal)}.coral{color:var(--coral)}.amber{color:var(--amber)}
+    .footer{position:absolute;left:5.6%;right:5.6%;bottom:2.6%;display:flex;justify-content:space-between;font-size:.72vw;color:var(--muted)}
+    .source{position:absolute;left:5.6%;bottom:5.8%;font-size:.68vw;color:var(--muted)}
+    .grid2{display:grid;grid-template-columns:1fr 1fr;gap:4.6%;margin-top:3%}.grid3{display:grid;grid-template-columns:repeat(3,1fr);gap:4.4%;margin-top:3.4%}
+    .card{background:white;border:1px solid var(--sand);border-radius:12px;padding:2.2%}.card.tint{background:var(--cyan)}.card.warn{background:var(--rose)}
+    .label{font-size:.86vw;font-weight:800;text-transform:uppercase;letter-spacing:.06em}.card h3{font-size:1.55vw;line-height:1.18;color:var(--navy);margin:.8em 0 .45em}.card p{font-size:1.06vw;line-height:1.35}
+    .metric{margin-bottom:2.1vh}.metric strong{display:block;font-size:2.35vw;line-height:1;color:var(--teal)}.metric span{font-size:1vw}.metric.coral strong{color:var(--coral)}.metric.amber strong{color:var(--amber)}
+    .flow{display:grid;gap:1.7%;align-items:stretch}.flow.five{grid-template-columns:repeat(5,1fr)}.flow.six{grid-template-columns:repeat(3,1fr);grid-template-rows:repeat(2,1fr)}
+    .step{background:white;border:1px solid var(--sand);border-radius:10px;padding:1.4vw;min-height:8.4vw}.step strong{font-size:1.1vw;color:var(--teal)}.step h3{font-size:1.38vw;color:var(--navy);margin:.45em 0}.step code{font-size:.82vw;color:var(--muted)}
+    .row{display:grid;grid-template-columns:24% 54% 22%;align-items:center;padding:1.12% .5%;border-bottom:1px solid var(--sand);font-size:1.02vw}.row b{color:var(--navy)}.status{text-align:right;font-weight:800;color:var(--teal)}.status.bad{color:var(--coral)}
+    .bullet{position:relative;padding-left:1.9vw;margin:1.05em 0}.bullet:before{content:"";position:absolute;left:0;top:.5em;width:.5vw;height:.5vw;background:var(--teal)}.bullet.warn:before{background:var(--coral)}.bullet h3{font-size:1.25vw;color:var(--navy)}.bullet p{font-size:1vw;margin-top:.25em}
+    pre{margin:0;background:#152b3c;color:#e6eef4;border-radius:10px;padding:1.7vw;font:1.03vw/1.45 "SFMono-Regular",Consolas,monospace;white-space:pre-wrap}.comment{color:#65d6c8;font-weight:700}
+    table{border-collapse:collapse;width:100%;font-size:1.03vw;margin-top:2.5%}th,td{text-align:left;padding:1.1% 1%;border-bottom:1px solid var(--sand)}th{color:var(--muted);font-size:.88vw}tr.best td{color:var(--teal);font-weight:800}
+    .bars{height:18vw;display:flex;align-items:flex-end;justify-content:space-evenly;border-left:1px solid #cbd5e1;border-bottom:1px solid #cbd5e1;padding:0 5%}.bar{width:25%;background:var(--teal);position:relative}.bar span{position:absolute;top:-2vw;width:100%;text-align:center;font-weight:800;color:var(--navy);font-size:1.1vw}.bar small{position:absolute;bottom:-2vw;width:100%;text-align:center;font-weight:700;font-size:.95vw}
+    .matrix{display:grid;grid-template-columns:repeat(2,10vw);grid-template-rows:repeat(2,7vw);gap:.7vw}.cell{display:grid;place-items:center;border-radius:10px;background:var(--cyan);font-size:2vw;font-weight:800;color:var(--teal)}.cell.bad{background:var(--rose);color:var(--coral)}.cell small{display:block;font-size:.8vw;color:var(--muted)}
+    .callout{background:var(--cyan);border-radius:10px;padding:1.3vw 1.6vw;font-size:1.05vw;font-weight:750;color:var(--navy)}
+    .controls{position:fixed;z-index:10;right:1.2rem;bottom:1rem;display:flex;gap:.45rem}.controls button{border:0;border-radius:999px;background:#fff;color:#102a43;padding:.6rem .9rem;font-weight:800;cursor:pointer;box-shadow:0 4px 18px #0004}.progress{position:fixed;z-index:9;left:0;bottom:0;height:4px;background:#2dd4bf;transition:width .25s}
+    .notes{display:none;position:fixed;z-index:20;left:1rem;right:1rem;bottom:1rem;max-height:32vh;overflow:auto;background:#071624ee;color:#fff;border-left:5px solid #2dd4bf;padding:1rem 1.2rem;font-size:1rem;line-height:1.45}.notes.show{display:block}
+    @media(max-width:900px){.controls{display:none}.slide{padding:4% 5%}.body{font-size:1.35vw}}
+  </style>
+</head>
+<body>
+<main class="deck">
+  <section class="slide dark active">
+    <div class="kicker">CAMELYON17 · Histopathologie numérique</div>
+    <h1 style="margin-top:6%">Détection de métastases<br>dans les ganglions lymphatiques</h1>
+    <p class="lead" style="margin-top:4%;color:#d9e2ec">Du patch de 112 µm à l’évaluation multicentre,<br>avec une lecture critique de la portée clinique</p>
+    <div style="position:absolute;right:10%;top:13%;width:8%;height:57%;background:#0f766e"></div><div style="position:absolute;right:6.6%;top:31%;width:1.9%;height:39%;background:#c84b31"></div>
+    <p class="body" style="position:absolute;left:5.6%;bottom:20%;font-weight:800">Zaki, Élodie, Joël, Mélanie et Paul</p>
+    <p class="small" style="position:absolute;left:5.6%;bottom:15%;color:#bcccdc">Projet 1 de spécialisation · Encadrement Ines Krissaane · Soutenance 15 minutes</p>
+    <div class="footer" style="color:#9fb3c8"><span>Résultats de la dernière archive collective alignée · Usage pédagogique, sans validation clinique</span><span>01 / 15</span></div>
+    <aside class="notes">45 s — Introduire le besoin médical, puis annoncer la thèse de la présentation : nous avons une chaîne patch robuste et documentée, mais la généralisation inter-centres et le passage au pN restent les verrous.</aside>
+  </section>
+
+  <section class="slide">
+    <div class="kicker">Problématique</div><h2 class="title">Question de recherche et niveaux de décision</h2>
+    <p class="lead" style="margin-top:2.2%;font-weight:750;color:var(--navy)">Peut-on détecter un tissu métastatique sur des lames histologiques tout en contrôlant la généralisation entre centres hospitaliers ?</p>
+    <div class="grid3">
+      <div class="card tint"><span class="label teal">Patch</span><h3>Probabilité tumorale</h3><p>Unité d’apprentissage et d’évaluation disponible</p></div>
+      <div class="card"><span class="label coral">Lame</span><h3>Localisation et taille des lésions</h3><p>Agrégation spatiale par carte de chaleur</p></div>
+      <div class="card"><span class="label coral">Patiente</span><h3>Stade pN</h3><p>Décision clinique conditionnée par les lames</p></div>
+    </div>
+    <p class="body" style="margin-top:3%"><b class="teal">Enjeu méthodologique.</b> Une bonne AUC patch ne suffit pas à valider une classe de lame ni un stade pN. Chaque niveau demande ses propres labels, règles et métriques.</p>
+    <div class="source">Périmètre issu du sujet, du README collectif et de l’audit de conformité.</div><div class="footer"><span>M2 Data Science & BI · Projet CAMELYON17</span><span>02 / 15</span></div>
+    <aside class="notes">55 s — Distinguer les trois unités. Insister sur le fait que l’objectif clinique se situe au niveau lame ou patiente, alors que les preuves disponibles portent surtout sur les patchs.</aside>
+  </section>
+
+  <section class="slide">
+    <div class="kicker">Cadrage</div><h2 class="title">Trajectoire du projet et livrables attendus</h2>
+    <div class="flow five" style="margin-top:3%">
+      <div class="step"><strong>0</strong><h3>Cadrage</h3><p class="small">Unités, données, métriques</p></div>
+      <div class="step"><strong>1</strong><h3>Prototype</h3><p class="small">9 lames, lecture et extraction</p></div>
+      <div class="step"><strong>2</strong><h3>Pipeline WSI</h3><p class="small">Préparation, patchs, modèle</p></div>
+      <div class="step"><strong>3</strong><h3>Expériences</h3><p class="small">Niveau, étiquetage, centres</p></div>
+      <div class="step"><strong>4</strong><h3>Évaluation</h3><p class="small">Test, erreurs, portée pN</p></div>
+    </div>
+    <h3 style="font-size:1.55vw;color:var(--navy);margin:3% 0 1%">Correspondance avec les consignes</h3>
+    <div class="row"><b>Code reproductible</b><span>Scripts, notebooks, configuration, README</span><span class="status">Réalisé</span></div>
+    <div class="row"><b>Expériences + interprétation</b><span>Niveau et normalisation multicentre</span><span class="status">Partiel mais chiffré</span></div>
+    <div class="row"><b>Évaluation lame / patiente</b><span>Code cartes et règles pN</span><span class="status bad">Sorties finales absentes</span></div>
+    <div class="row"><b>Qualité logicielle</b><span>40 tests et vérificateur public</span><span class="status">Réalisé</span></div>
+    <div class="source">Consignes : code, interprétation, README d’exécution, rapport critique, soutenance. Rapport limité à 15 pages.</div><div class="footer"><span>M2 Data Science & BI · Projet CAMELYON17</span><span>03 / 15</span></div>
+    <aside class="notes">60 s — Montrer que la présentation suit le projet depuis le cadrage. Dire ce qui est terminé et ce qui ne l’est pas. Cette transparence est un argument de maîtrise, pas une faiblesse.</aside>
+  </section>
+
+  <section class="slide">
+    <div class="kicker">Données</div><h2 class="title">Données CAMELYON17 et hiérarchie des observations</h2>
+    <div class="grid2" style="grid-template-columns:31% 65%">
+      <div><div class="metric"><strong>WSI</strong><span>lames entières de très grande taille</span></div><div class="metric coral"><strong>5</strong><span>centres hospitaliers dans le challenge</span></div><div class="metric amber"><strong>XML</strong><span>contours tumoraux pour les lames annotées</span></div></div>
+      <div class="card"><div style="display:flex;align-items:center;justify-content:space-between"><div><h3>Patiente</h3><p class="muted">plusieurs ganglions</p></div><b class="teal">━━</b><div><h3>Lame WSI</h3><p class="muted">tissu + annotation</p></div><b class="teal">━━</b><div><h3>Patch</h3><p class="muted">224 × 224</p></div></div>
+      <h3 style="margin-top:3em;color:var(--teal)">Contrôles nécessaires</h3><div class="bullet"><h3>Correspondance</h3><p>image, masque XML et identifiant de lame</p></div><div class="bullet warn"><h3>Séparation</h3><p>aucune patiente dans plusieurs ensembles</p></div></div>
+    </div>
+    <p class="body" style="margin-top:2%"><b class="coral">Attention.</b> Les identifiants patient du challenge sont des regroupements artificiels. Ils limitent les fuites, sans prouver une indépendance biologique complète.</p>
+    <div class="source">Données accessibles sur le stockage public CAMELYON17. Les images lourdes restent hors Git.</div><div class="footer"><span>M2 Data Science & BI · Projet CAMELYON17</span><span>04 / 15</span></div>
+    <aside class="notes">55 s — Décrire la hiérarchie et l’accès distant. Préciser que l’annotation manquante ne doit pas être interprétée comme une absence de tumeur.</aside>
+  </section>
+
+  <section class="slide">
+    <div class="kicker">Pipeline</div><h2 class="title">Architecture de la chaîne de traitement</h2>
+    <div class="flow six" style="margin-top:4%;height:47%">
+      <div class="step"><strong>1</strong><h3>Index distant</h3><code>camelyon_data.py</code></div><div class="step"><strong>2</strong><h3>Tissu + XML</h3><code>extract_patches.py</code></div><div class="step"><strong>3</strong><h3>Patchs 112 µm</h3><code>parametres_decoupage.py</code></div>
+      <div class="step"><strong>4</strong><h3>512 variables</h3><code>modele_patch.py</code></div><div class="step"><strong>5</strong><h3>Probabilité</h3><code>régression logistique</code></div><div class="step" style="background:var(--rose)"><strong class="coral">6</strong><h3>Carte / pN</h3><code>cartes_chaleur.py + notebook 02</code></div>
+    </div>
+    <p class="body" style="margin-top:2.5%"><b class="teal">Principe de conception.</b> Une configuration partagée garantit la même géométrie, la même préparation ImageNet et le même extracteur entre entraînement et cartes de chaleur.</p>
+    <div class="source">Architecture reconstruite à partir des scripts et notebooks de version_finale/.</div><div class="footer"><span>M2 Data Science & BI · Projet CAMELYON17</span><span>05 / 15</span></div>
+    <aside class="notes">55 s — Expliquer les modules et leurs responsabilités. Mettre en avant la séparation entre extraction coûteuse des caractéristiques et classification légère.</aside>
+  </section>
+
+  <section class="slide">
+    <div class="kicker">Méthode</div><h2 class="title">Préparation des données et prévention des fuites</h2>
+    <div class="grid2">
+      <div><h3 style="font-size:1.55vw;color:var(--navy)">Séparation au niveau patiente</h3><div class="bullet"><h3>Entraînement</h3><p>apprentissage de la régression</p></div><div class="bullet" style="--teal:var(--amber)"><h3>Validation</h3><p>choix de C, niveau et seuil</p></div><div class="bullet warn"><h3>Test</h3><p>consulté après gel du protocole</p></div></div>
+      <pre><span class="comment"># notebook 02_modelisation_evaluation.ipynb</span>
+
+cv = StratifiedGroupKFold(...)
+groups = patches['patient']
+
+LogisticRegression(
+  class_weight='balanced',
+  max_iter=...
+)</pre>
+    </div>
+    <p class="body" style="margin-top:2%"><b class="teal">Pourquoi ce choix ?</b> Des patchs proches partagent texture, coloration et artefacts. Un split aléatoire par patch surestimerait la généralisation.</p>
+    <p class="body" style="margin-top:1.2%;font-weight:750"><b class="coral">Garde-fou.</b> Le seuil de décision se fixe sur la validation, jamais sur le centre de test.</p>
+    <div class="source">Le groupement par patiente est utilisé dans la validation croisée du modèle de patch.</div><div class="footer"><span>M2 Data Science & BI · Projet CAMELYON17</span><span>06 / 15</span></div>
+    <aside class="notes">60 s — Expliquer le risque de fuite spatiale. Définir le rôle de la validation et celui du test. Mentionner class_weight='balanced'.</aside>
+  </section>
+
+  <section class="slide">
+    <div class="kicker">Prétraitement</div><h2 class="title">Extraction des patchs à surface physique constante</h2>
+    <div class="grid2">
+      <div class="card" style="position:relative;min-height:26vw"><div class="metric"><strong>112 µm</strong><span>côté physique du patch</span></div><div style="width:15vw;height:15vw;background:var(--cyan);border:1px solid var(--teal);display:grid;place-items:center"><div style="width:7.5vw;height:7.5vw;background:var(--rose);border:1px solid var(--coral);display:grid;place-items:center;text-align:center;color:var(--coral);font-weight:800">zone centrale<br>56 µm</div></div><p style="margin-top:1em;font-weight:750">Niveau 2 puis redimensionnement en 224 × 224</p></div>
+      <div><pre><span class="comment"># parametres_decoupage.py</span>
+
+'patch_um': 112
+'patch_level': [2]
+'patch': 224
+'min_tissue': 0.5
+'labelling': 'centre'
+'centre_um': 56
+'max_tumor': 250
+'max_normal': 250</pre><p class="body" style="margin-top:2%"><b class="teal">Choix défendu.</b> La surface physique reste comparable malgré les différences de MPP entre scanners et centres.</p></div>
+    </div>
+    <div class="source">geometrie() convertit 112 µm en pixels du niveau 0, puis adapte la lecture au niveau choisi.</div><div class="footer"><span>M2 Data Science & BI · Projet CAMELYON17</span><span>07 / 15</span></div>
+    <aside class="notes">65 s — Détailler la géométrie, le masque de tissu, l’étiquetage central et les quotas. Justifier l’usage des micromètres plutôt qu’une taille brute en pixels.</aside>
+  </section>
+
+  <section class="slide">
+    <div class="kicker">Modélisation</div><h2 class="title">Modèle de patch : transfert de représentation</h2>
+    <div class="flow" style="grid-template-columns:repeat(4,1fr);margin-top:4%">
+      <div class="step"><h3>Image</h3><p>224 × 224 RGB</p></div><div class="step"><h3>ResNet18</h3><p>poids ImageNet gelés</p></div><div class="step"><h3>Vecteur</h3><p>512 caractéristiques</p></div><div class="step" style="background:var(--rose)"><h3 class="coral">Logistique</h3><p>P(tumeur | patch)</p></div>
+    </div>
+    <div class="grid2" style="margin-top:4%">
+      <div><h3 style="font-size:1.55vw;color:var(--navy)">Pourquoi ce modèle ?</h3><div class="bullet"><h3>Coût maîtrisé</h3><p>pas de rétropropagation sur le CNN</p></div><div class="bullet"><h3>Traçabilité</h3><p>les 512 variables sont mises en cache</p></div><div class="bullet"><h3>Interprétation expérimentale</h3><p>C et seuil restent observables et comparables</p></div></div>
+      <pre>modele.fc = torch.nn.Identity()
+modele.eval()
+
+with torch.no_grad():
+  features = modele(batch)
+# shape : n × 512</pre>
+    </div>
+    <div class="source">Le même modele_patch.py alimente le notebook d’entraînement et cartes_chaleur.py.</div><div class="footer"><span>M2 Data Science & BI · Projet CAMELYON17</span><span>08 / 15</span></div>
+    <aside class="notes">60 s — Expliquer ce qui est gelé et ce qui apprend. Le choix privilégie un pipeline calculable, traçable et comparable plutôt qu’un fine-tuning coûteux sur une cohorte limitée.</aside>
+  </section>
+
+  <section class="slide">
+    <div class="kicker">Évaluation</div><h2 class="title">Protocole expérimental et critères de sélection</h2>
+    <div class="grid2">
+      <div><h3 style="font-size:1.55vw;color:var(--navy)">Questions successives</h3><div class="bullet"><h3>Q1 · Quel niveau conserve le meilleur signal ?</h3><p class="muted">AUC validation + CV groupée</p></div><div class="bullet"><h3>Q2 · La normalisation réduit-elle l’effet centre ?</h3><p class="muted">rappel minimal 95 % par centre</p></div><div class="bullet"><h3>Q3 · Le choix généralise-t-il au centre 2 ?</h3><p class="muted">rappel, précision, spécificité, AUC</p></div></div>
+      <div class="card"><h3>Règle de décision multicentre</h3><div class="bullet"><h3>1 · Filtre de rappel</h3><p>au moins 95 % dans chaque centre de validation</p></div><div class="bullet"><h3>2 · Critère principal</h3><p>spécificité moyenne par centre</p></div><div class="bullet"><h3>3 · Départage</h3><p>AUC moyenne</p></div></div>
+    </div>
+    <p class="body" style="margin-top:2%;font-weight:750"><b class="coral">Séparation critique.</b> Le test ne sert pas à choisir le modèle. Il mesure la perte de généralisation après gel.</p>
+    <div class="source">Les métriques sont rapportées avec leurs dénominateurs et matrices de confusion.</div><div class="footer"><span>M2 Data Science & BI · Projet CAMELYON17</span><span>09 / 15</span></div>
+    <aside class="notes">60 s — Présenter les expériences comme une succession de questions testables. Insister sur la règle de sélection avant le test.</aside>
+  </section>
+
+  <section class="slide">
+    <div class="kicker">Résultat 1</div><h2 class="title">Le niveau 2 améliore légèrement la discrimination</h2>
+    <div class="grid2" style="grid-template-columns:56% 40%;margin-top:5%">
+      <div class="bars"><div class="bar" style="height:70%"><span>0,9682</span><small>Niveau 1</small></div><div class="bar" style="height:84%"><span>0,9738</span><small>Niveau 2</small></div></div>
+      <div><div class="metric"><strong>0,9738</strong><span>ROC-AUC de validation au niveau 2</span></div><div class="metric coral"><strong>0,9506</strong><span>score moyen de CV groupée</span></div><div class="metric amber"><strong>C = 0,01</strong><span>régularisation retenue</span></div></div>
+    </div>
+    <p class="body" style="margin-top:5%"><b class="teal">Interprétation.</b> Le gain reste faible, mais le niveau 2 réduit le coût de lecture tout en conservant le signal. La surface physique de 112 µm évite de confondre niveau et champ observé.</p>
+    <div class="source">Niveau 1 : AUC 0,9682, CV 0,9403, C = 0,001.</div><div class="footer"><span>M2 Data Science & BI · Projet CAMELYON17</span><span>10 / 15</span></div>
+    <aside class="notes">55 s — Ne pas survendre l’écart de 0,0056. Le choix combine résultat, coût et cohérence physique.</aside>
+  </section>
+
+  <section class="slide">
+    <div class="kicker">Résultat 2</div><h2 class="title">Étude multicentre : la normalisation n’améliore pas le compromis</h2>
+    <p class="body" style="margin-top:2%"><b class="coral">Branche expérimentale historique.</b> Cette étude utilise les patchs du prototype au niveau 1. Elle complète la version finale, mais ses scores ne se fusionnent pas avec ceux du niveau 2.</p>
+    <table><thead><tr><th>Méthode</th><th>Seuil</th><th>Spécificité moyenne</th><th>AUC moyenne</th><th>Temps</th></tr></thead><tbody><tr class="best"><td>Original</td><td>0,314</td><td>0,897</td><td>0,975</td><td>78 s</td></tr><tr><td>Reinhard</td><td>0,253</td><td>0,875</td><td>0,977</td><td>122 s</td></tr><tr><td>Macenko</td><td>0,244</td><td>0,822</td><td>0,974</td><td>112 s</td></tr></tbody></table>
+    <div class="callout" style="margin-top:3%">Choix final : images originales. Elles maximisent la spécificité moyenne et évitent un coût de normalisation sans gain décisif.</div>
+    <div class="source">Validation sur centres 0 et 4. Seuil choisi sous contrainte de rappel ≥ 95 % dans chaque centre.</div><div class="footer"><span>M2 Data Science & BI · Projet CAMELYON17</span><span>11 / 15</span></div>
+    <aside class="notes">65 s — Expliquer la distinction entre AUC et décision au seuil. Reinhard a une AUC légèrement supérieure, mais l’original garde la meilleure spécificité sous la contrainte de rappel.</aside>
+  </section>
+
+  <section class="slide">
+    <div class="kicker">Résultat 3</div><h2 class="title">Test sur le centre 2 : forte spécificité, rappel insuffisant</h2>
+    <div class="grid2" style="margin-top:3%">
+      <div><h3 style="font-size:1.45vw;color:var(--navy);margin-bottom:1.5vw">Matrice de confusion, n = 864 patchs</h3><div class="matrix"><div class="cell">589<small>VN</small></div><div class="cell bad">11<small>FP</small></div><div class="cell bad">92<small>FN</small></div><div class="cell">172<small>VP</small></div></div></div>
+      <div><div style="display:grid;grid-template-columns:1fr 1fr;gap:2vw"><div class="metric coral"><strong>65,2 %</strong><span>rappel</span></div><div class="metric"><strong>94,0 %</strong><span>précision</span></div><div class="metric"><strong>98,2 %</strong><span>spécificité</span></div><div class="metric amber"><strong>0,872</strong><span>ROC-AUC</span></div></div><p class="body"><b class="coral">Lecture.</b> Le modèle limite les fausses alertes, mais manque 92 patchs tumoraux. La contrainte de rappel satisfaite en validation ne se maintient pas sur le centre 2.</p></div>
+    </div>
+    <div class="source">metriques_test.csv : seuil gelé à 0,31390092, méthode originale.</div><div class="footer"><span>M2 Data Science & BI · Projet CAMELYON17</span><span>12 / 15</span></div>
+    <aside class="notes">70 s — Lire la matrice avant les pourcentages. Le message central est le décalage de domaine : peu de FP, mais beaucoup de FN. Cela interdit une conclusion clinique.</aside>
+  </section>
+
+  <section class="slide">
+    <div class="kicker">Diagnostic</div><h2 class="title">Analyse des erreurs et interprétabilité</h2>
+    <div class="grid2">
+      <div><span class="label coral">Erreur dominante</span><h3 style="font-size:1.8vw;color:var(--navy);margin:.6em 0">Faux négatifs tumoraux</h3><p class="body">92 FN contre 11 FP sur le centre de test</p><div class="bullet warn"><h3>Hypothèse 1</h3><p>micrométastases et faible surface tumorale</p></div><div class="bullet"><h3>Hypothèse 2</h3><p>variation de coloration ou de scanner</p></div><div class="bullet"><h3>Hypothèse 3</h3><p>frontière de décision mal calibrée hors domaine</p></div></div>
+      <div><div class="card"><h3>Grad-CAM comme outil de contrôle</h3><h4 class="teal">Ce qu’il apporte</h4><p class="body">Localiser les régions qui contribuent au score et repérer certains artefacts.</p><h4 class="coral" style="margin-top:2em">Ce qu’il ne prouve pas</h4><p class="body">Ni causalité, ni correspondance automatique avec le contour d’un pathologiste.</p></div><p class="body" style="margin-top:2%"><b class="teal">Priorité.</b> Réévaluer les FN par type de lésion et par centre, puis calibrer sans consulter le test.</p></div>
+    </div>
+    <div class="source">L’interprétation visuelle doit être confrontée aux masques XML et relue humainement.</div><div class="footer"><span>M2 Data Science & BI · Projet CAMELYON17</span><span>13 / 15</span></div>
+    <aside class="notes">60 s — Présenter les hypothèses comme des pistes, pas comme des causes démontrées. Expliquer la limite de Grad-CAM.</aside>
+  </section>
+
+  <section class="slide">
+    <div class="kicker">Portée du système</div><h2 class="title">Carte de chaleur, classe de lame et stade pN</h2>
+    <div class="flow five" style="margin-top:4%"><div class="step"><strong>1</strong><h3>Patchs</h3><p>pas = 56 µm</p></div><div class="step"><strong>2</strong><h3>Vecteurs 512D</h3><p>stockés en .npz</p></div><div class="step"><strong>3</strong><h3>Heatmap</h3><p>probabilités spatiales</p></div><div class="step" style="background:var(--rose)"><strong>4</strong><h3>Lésions</h3><p>taille + classe</p></div><div class="step" style="background:var(--rose)"><strong>5</strong><h3>Patiente</h3><p>règles pN</p></div></div>
+    <div class="grid2" style="margin-top:4%"><div class="card tint"><h3 class="teal">Implémenté</h3><p class="body">Balayage du tissu par blocs<br>Extraction ResNet18 partagée<br>Écriture atomique des cartes<br>Logique de classe de lame et règles pN</p></div><div class="card warn"><h3 class="coral">Non validé dans l’archive collective</h3><p class="body"><b>Les cellules finales lame entière et pN ne contiennent pas de sorties exécutées.</b> Nous ne présentons donc ni métrique lame, ni kappa pN.</p></div></div>
+    <p class="body" style="margin-top:2%"><b class="coral">Conséquence.</b> La contribution scientifiquement établie reste au niveau patch, avec une étude de robustesse inter-centres.</p>
+    <div class="source">cartes_chaleur.py et notebook 02, parties 5 à 8.</div><div class="footer"><span>M2 Data Science & BI · Projet CAMELYON17</span><span>14 / 15</span></div>
+    <aside class="notes">60 s — Montrer que le code existe, puis distinguer implémentation et validation. Cette distinction répond directement à la question « qu’avez-vous réellement testé ? ».</aside>
+  </section>
+
+  <section class="slide">
+    <div class="kicker">Synthèse</div><h2 class="title">Conclusion et prochaines étapes</h2>
+    <div class="grid2">
+      <div><h3 style="font-size:1.55vw;color:var(--navy)">Ce que le projet démontre</h3><div class="bullet"><h3>Pipeline reproductible</h3><p>de la WSI distante au score patch</p></div><div class="bullet"><h3>Choix argumentés</h3><p>niveau 2, surface 112 µm, extracteur gelé</p></div><div class="bullet warn"><h3>Résultat critique</h3><p>spécificité 98,2 %, rappel 65,2 % au centre 2</p></div><p class="body" style="margin-top:2%"><b class="teal">Réponse.</b> Le transfert de représentation est performant en validation, mais la baisse de rappel hors centre empêche toute conclusion clinique ou pN.</p></div>
+      <div class="card"><h3>Priorités avant un livrable scientifique final</h3><div class="bullet"><h3>1 · Exécuter la chaîne lame et pN</h3><p>sur une cohorte complète</p></div><div class="bullet"><h3>2 · Reproduire depuis un noyau neuf</h3><p>avec plusieurs graines</p></div><div class="bullet"><h3>3 · Documenter les faux négatifs</h3><p>par type de lésion et par centre</p></div><div class="bullet"><h3>4 · Faire relire les visualisations</h3><p>par un expert du domaine</p></div></div>
+    </div>
+    <div class="source">Dépôt aligné : code du groupe, documentation d’exécution, résultats publics vérifiables et 40 tests.</div><div class="footer"><span>M2 Data Science & BI · Projet CAMELYON17</span><span>15 / 15</span></div>
+    <aside class="notes">55 s — Répondre clairement à la problématique. Finir sur les preuves acquises, puis sur les quatre conditions avant de parler de validation scientifique complète.</aside>
+  </section>
+</main>
+<div class="controls"><button id="prev" aria-label="Précédente">←</button><button id="notesBtn" aria-label="Notes">N</button><button id="next" aria-label="Suivante">→</button></div>
+<div class="progress" id="progress"></div><div class="notes" id="notes"></div>
+<script>
+  const slides=[...document.querySelectorAll('.slide')],progress=document.getElementById('progress'),notes=document.getElementById('notes');let i=0,showNotes=false;
+  function render(){slides.forEach((s,n)=>s.classList.toggle('active',n===i));progress.style.width=((i+1)/slides.length*100)+'%';notes.innerHTML=slides[i].querySelector('.notes')?.innerHTML||'';notes.classList.toggle('show',showNotes);document.title=`${String(i+1).padStart(2,'0')}/${slides.length} · CAMELYON17`}
+  function move(d){i=Math.max(0,Math.min(slides.length-1,i+d));render()} document.getElementById('prev').onclick=()=>move(-1);document.getElementById('next').onclick=()=>move(1);document.getElementById('notesBtn').onclick=()=>{showNotes=!showNotes;render()};
+  addEventListener('keydown',e=>{if(['ArrowRight','PageDown',' '].includes(e.key))move(1);if(['ArrowLeft','PageUp'].includes(e.key))move(-1);if(e.key.toLowerCase()==='n'){showNotes=!showNotes;render()}if(e.key==='Home'){i=0;render()}if(e.key==='End'){i=slides.length-1;render()}if(e.key.toLowerCase()==='f')document.documentElement.requestFullscreen?.()});render();
+</script>
+</body>
+</html>
